@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'AlibabaPuHuiTi-3-65-Medium';
+    src: url('../font/AlibabaPuHuiTi-3-65-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'AlibabaPuHuiTi-3-85-Bold';
+    src: url('../font/AlibabaPuHuiTi-3-85-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'AlibabaPuHuiTi-3-55-Regular';
+    src: url('../font/AlibabaPuHuiTi-3-55-Regular.ttf');
+}
+
+@mixin aboutColumnCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin clickButtonShrink {
+    transition: transform 0.1s ease;
+
+    &:active {
+        transform: scale(0.85);
+        /* 点击时缩小 */
+    }
+}
+
+@mixin borderGlowing {
+
+    // 鼠标悬停
+    &:hover {
+        border: 2px solid #71A7D7;
+    }
+
+    // 获取焦点
+    &:focus {
+        border: 2px solid #71A7D7;
+        box-shadow: 2px 2px 3px rgba($color: #71A7D7, $alpha: 0.80);
+    }
+}
+
+$Color1570EF: #1570EF;
+$backgroundColorPage: #F6F6F6;
+
+input {
+    /* 去除内边距 */
+    padding: 0;
+
+    /* 去除边框 */
+    border: none;
+
+    /* 去除背景颜色或背景图片 */
+    background: none;
+
+    /* 去除外边距 */
+    margin: 0;
+
+    /* 重置字体样式 */
+    font-family: inherit;
+    font-size: inherit;
+
+    /* 去除轮廓线 */
+    outline: none;
+
+    /* 根据需要，可以设置宽度和高度 */
+    width: auto;
+    height: auto;
+
+    /* 其他可能需要重置的样式 */
+    box-shadow: none;
+    transition: none;
+}
+
+div,
+input,
+span,
+p {
+    font-family: 'AlibabaPuHuiTi-3-55-Regular';
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}

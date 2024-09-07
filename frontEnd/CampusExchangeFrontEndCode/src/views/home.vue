@@ -16,7 +16,8 @@
                             </div>
                         </div>
 
-                        <postPreview :title="title"/>
+                        <postPreview />
+                        <postPreview />
 
                     </div>
                 </div>

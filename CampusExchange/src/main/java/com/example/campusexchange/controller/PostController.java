@@ -14,7 +14,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("posts")
+    @GetMapping("/posts")
     public Dto posts(@RequestParam(name = "pageNow", required = true) int pageNow,
                      @RequestParam(name = "pageSize", required = true) int pageSize){
 

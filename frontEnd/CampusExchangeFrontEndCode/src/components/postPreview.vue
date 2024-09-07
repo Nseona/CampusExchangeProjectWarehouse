@@ -41,6 +41,7 @@ const props = defineProps({
         height: 135px;
         padding: 10px;
         .box{
+            @include clickButtonShrink;
             position: relative;
             border-bottom: 1px solid #EEEEEE;
             display: grid;

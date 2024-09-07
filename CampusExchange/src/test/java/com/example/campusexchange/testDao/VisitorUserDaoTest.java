@@ -26,4 +26,12 @@ public class VisitorUserDaoTest {
         int number = visitorUserDao.insertVisitorUserOne(visitorUser);
         System.out.println(number);
     }
+
+    @Test
+    public void testSelectVisitorUserOneById(){
+        for (int i = 2; i < 10; i++){
+            VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(i);
+            System.out.println(visitorUser);
+        }
+    }
 }

@@ -16,8 +16,12 @@
                             </div>
                         </div>
 
-                        <postPreview />
-                        <postPreview />
+                        <postPreview 
+                            v-for="(item, index) in postPreviews" :key="item.postId"
+                            :title="item.postTitle"
+                            :text="item.postTextContent"
+                            :author="String(item.postId)"
+                        />
 
                     </div>
                 </div>
@@ -28,13 +32,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
+import { request } from '@/utils/request'
 import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
+
+const postPreviews = ref([])
 
 const clickOption = (index) => {
     console.log(index)
 }
+
+onMounted(() => {
+    request({
+        url_: '/post/posts',
+        data_: {
+            pageNow: 1,
+            pageSize: 10
+        }
+    }).then(res => {
+        postPreviews.value.push(...res.data.data)
+    })
+})
 </script>
 
 <style lang="scss" scoped>

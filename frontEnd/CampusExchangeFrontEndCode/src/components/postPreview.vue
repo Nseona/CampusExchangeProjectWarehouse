@@ -3,7 +3,9 @@
         <div class="item">
             <div class="box">
                 <div class="left">
-                    <div class="box"></div>
+                    <div class="imgBox">
+                        <img :src="'http://localhost:8080/file/' + imgUrls[randomNumber()] + '.jpg'"/>
+                    </div>
                 </div>
 
                 <div class="right">
@@ -11,7 +13,9 @@
                         {{ title }}
                     </div>
                     <div class="text">
-                        {{ text }}
+                        <el-text line-clamp="2">
+                            {{ text }}
+                        </el-text>
                     </div>
                 </div>
 
@@ -24,13 +28,21 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps , ref} from 'vue'
+import { ElText } from 'element-plus'
 const props = defineProps({
     title: String,
     text: String,
     author: String,
     imgUrl: String
 })
+
+const imgUrls = ref([1, 2, 3, 4, 5])
+
+const randomNumber = () => {
+    return  Math.floor(Math.random() * imgUrls.value.length);
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -53,10 +65,15 @@ const props = defineProps({
 
             .left{
                 padding: 0 10px 10px 0;
-                .box{
+                .imgBox{
                     width: 100%;
                     height: 100%;
-                    background-color: rgb(172, 167, 197);
+
+                    img {
+                        width: 100%;
+                        height: 100%; 
+                        object-fit: cover; 
+                    }
                 }
             }
 
@@ -79,7 +96,7 @@ const props = defineProps({
                 }
 
                 .text{
-                    padding: 0 0 10px 10px;
+                    padding: 0 0 30px 10px;
                     font-size: 14px;
                 }
             }

@@ -1,7 +1,7 @@
 <template>
     <div class="out">
         <div class="header">
-            <div class="text">
+            <div class="text" @click="stabilization">
                 CampusExchange!
             </div>
         </div>
@@ -20,7 +20,7 @@
                             v-for="(item, index) in postPreviews" :key="item.postId"
                             :title="item.postTitle"
                             :text="item.postTextContent"
-                            :author="String(item.postId)"
+                            :author="item.userName"
                         />
 
                     </div>
@@ -44,6 +44,44 @@ const clickOption = (index) => {
 }
 
 onMounted(() => {
+    loadingPost()
+})
+
+const stabilization = function(){
+    let timer
+    console.log(this)
+    return function(){
+        console.log('触发')
+        // console.log(this)
+        // if (timer){
+        //     clearTimeout(timer)
+        // }
+        // timer = setTimeout(() => {
+        //     console.log('触发')
+        // }, 1000)
+    }
+}
+
+const pageScroll = () => {
+    // 获取文档的总高度
+    const scrollHeight = document.documentElement.scrollHeight
+
+    // 获取窗口的视口高度
+    const clientHeight = document.documentElement.clientHeight
+
+    // 获取当前滚动条的位置
+    const scrollTop = document.documentElement.scrollTop
+
+    //提前量
+    const delta = 30
+
+    if (clientHeight + scrollTop >= scrollHeight - delta){
+        console.log('!!')
+        // loadingPost()
+    }
+}
+
+const loadingPost = () => {
     request({
         url_: '/post/posts',
         data_: {
@@ -53,7 +91,10 @@ onMounted(() => {
     }).then(res => {
         postPreviews.value.push(...res.data.data)
     })
-})
+}
+
+// window.addEventListener('scroll', throttle(pageScroll, 1000))
+
 </script>
 
 <style lang="scss" scoped>

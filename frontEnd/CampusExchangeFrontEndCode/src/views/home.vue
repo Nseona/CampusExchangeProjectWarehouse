@@ -1,12 +1,12 @@
 <template>
     <div class="out">
         <div class="header">
-            <div class="text" @click="stabilization">
+            <div class="text">
                 CampusExchange!
             </div>
         </div>
         <div class="body">
-            <home_navigation @clickOption="clickOption"/>
+            <home_navigation @clickOption="clickOption()"/>
             <div class="content">
                 <div class="postPreviews">
                     <div class="box">
@@ -36,6 +36,7 @@ import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
 import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
+import throttle from '@/utils/throttle';
 
 const postPreviews = ref([])
 
@@ -46,21 +47,6 @@ const clickOption = (index) => {
 onMounted(() => {
     loadingPost()
 })
-
-const stabilization = function(){
-    let timer
-    console.log(this)
-    return function(){
-        console.log('触发')
-        // console.log(this)
-        // if (timer){
-        //     clearTimeout(timer)
-        // }
-        // timer = setTimeout(() => {
-        //     console.log('触发')
-        // }, 1000)
-    }
-}
 
 const pageScroll = () => {
     // 获取文档的总高度
@@ -76,8 +62,7 @@ const pageScroll = () => {
     const delta = 30
 
     if (clientHeight + scrollTop >= scrollHeight - delta){
-        console.log('!!')
-        // loadingPost()
+        loadingPost()
     }
 }
 
@@ -93,7 +78,7 @@ const loadingPost = () => {
     })
 }
 
-// window.addEventListener('scroll', throttle(pageScroll, 1000))
+window.addEventListener('scroll', throttle(pageScroll, 1000))
 
 </script>
 

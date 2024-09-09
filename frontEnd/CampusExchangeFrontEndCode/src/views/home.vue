@@ -23,10 +23,25 @@
                             :author="item.userName"
                         />
 
+                        <loadingBar @touchBottom="touchBottom"/>
                     </div>
                 </div>
-                <div class="functionBox"></div>
+
+                <div class="rightContent">
+                    <div class="functionalModule">
+                        <div class="box">
+                            <div class="releasePost">
+                                <img src="../assets/img/png/file_icon.png"/>
+                                <div class="text">
+                                    发帖子
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <goto_top_Icon @goTop="goTop"/>
         </div>
     </div>
 </template>
@@ -36,7 +51,8 @@ import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
 import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
-import throttle from '@/utils/throttle';
+import loadingBar from '@/components/loadingBar.vue';
+import goto_top_Icon from '@/components/goto_top_Icon.vue';
 
 const postPreviews = ref([])
 
@@ -48,22 +64,8 @@ onMounted(() => {
     loadingPost()
 })
 
-const pageScroll = () => {
-    // 获取文档的总高度
-    const scrollHeight = document.documentElement.scrollHeight
-
-    // 获取窗口的视口高度
-    const clientHeight = document.documentElement.clientHeight
-
-    // 获取当前滚动条的位置
-    const scrollTop = document.documentElement.scrollTop
-
-    //提前量
-    const delta = 30
-
-    if (clientHeight + scrollTop >= scrollHeight - delta){
-        loadingPost()
-    }
+const touchBottom = () => {
+    loadingPost()
 }
 
 const loadingPost = () => {
@@ -78,8 +80,6 @@ const loadingPost = () => {
     })
 }
 
-window.addEventListener('scroll', throttle(pageScroll, 1000))
-
 </script>
 
 <style lang="scss" scoped>
@@ -89,6 +89,7 @@ window.addEventListener('scroll', throttle(pageScroll, 1000))
         height: 115px;
         width: 100vw;
         background-color: white;
+        margin-bottom: $gap_padding;
         .text{
             width: 370px;
             height: 100%;
@@ -110,7 +111,7 @@ window.addEventListener('scroll', throttle(pageScroll, 1000))
             grid-template-columns: 2fr 1fr;
             min-height: 600px;
             .postPreviews{
-                padding: 10px;
+                padding: $gap_padding;
                 .box{
                     width: 100%;
                     height: 100%;
@@ -119,9 +120,9 @@ window.addEventListener('scroll', throttle(pageScroll, 1000))
                     .tooltip{
                         width: 100%;
                         height: 65px;
-                        padding: 10px;
+                        padding: $gap_padding;
                         .box{
-                            padding-left: 10px;
+                            padding: $gap_padding;
 
                             display: flex;
                             flex-direction: row;
@@ -137,7 +138,39 @@ window.addEventListener('scroll', throttle(pageScroll, 1000))
                     }
                 }
             }
+        }
 
+        .rightContent{
+            width: 100%;
+            .functionalModule{
+                padding: $gap_padding;
+                height: 135px;
+                .box{
+                    width: 100%;
+                    height: 100%;
+                    background-color: white;
+
+                    @include aboutRowCenter;
+
+                    .releasePost{
+                        width: 70px;
+                        height: 70px;
+
+                        @include aboutColumnCenter;
+                        @include clickButtonShrink;
+
+                        img{
+                            width: 45px;
+                            height: 45px;
+                        }
+
+                        .text{
+                            padding-top: 5px;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -51,20 +51,23 @@ const randomNumber = () => {
         background-color: white;
         width: 100%;
         height: 135px;
-        padding: 10px;
+        padding: $gap_padding;
         .box{
-            @include clickButtonShrink;
             position: relative;
             border-bottom: 1px solid #EEEEEE;
             display: grid;
             grid-template-columns: 1fr 4fr;
+
+            &:hover {
+                cursor: pointer;
+            }
 
             &>div{
                 height: 115px;
             }
 
             .left{
-                padding: 0 10px 10px 0;
+                padding: $gap_padding;
                 .imgBox{
                     width: 100%;
                     height: 100%;
@@ -92,11 +95,11 @@ const randomNumber = () => {
                     align-items: center;
                     justify-content: start;
                     
-                    padding: 0 0 10px 10px;
+                    padding: $gap_padding;
                 }
 
                 .text{
-                    padding: 0 0 30px 10px;
+                    padding: $gap_padding;
                     font-size: 14px;
                 }
             }
@@ -113,7 +116,7 @@ const randomNumber = () => {
                 bottom: 0;
                 right: 0;
 
-                padding: 10px 0 10px 0
+                padding: $gap_padding;
             }
         }
     }

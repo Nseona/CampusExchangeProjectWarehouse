@@ -31,9 +31,8 @@ const clickOption = (index) => {
 .out{
     .navigation{
             width: 100%;
-            height: 70px;
-            padding: 10px;
-            padding-bottom: 0;
+            height: 60px;
+            padding: $gap_padding;
             .box{
                 width: 100%;
                 height: 100%;

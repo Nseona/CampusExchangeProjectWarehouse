@@ -59,7 +59,8 @@ $backgroundColorPage: #F6F6F6;
 
 $gap_padding: 5px;
 
-input {
+input,
+textarea {
     /* 去除内边距 */
     padding: 0;
 
@@ -92,7 +93,8 @@ div,
 input,
 span,
 p,
-img {
+img,
+textarea {
     font-family: 'AlibabaPuHuiTi-3-55-Regular';
     font-size: 16px;
     padding: 0;

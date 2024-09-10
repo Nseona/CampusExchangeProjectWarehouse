@@ -1,10 +1,6 @@
 <template>
     <div class="out">
-        <div class="header">
-            <div class="text">
-                CampusExchange!
-            </div>
-        </div>
+        <pageHeader />
         <div class="body">
             <home_navigation @clickOption="clickOption()"/>
             <div class="content">
@@ -30,12 +26,14 @@
                 <div class="rightContent">
                     <div class="functionalModule">
                         <div class="box">
-                            <div class="releasePost">
+
+                            <div class="releasePost" @click="router.push('/releasePost')">
                                 <img src="../assets/img/png/file_icon.png"/>
                                 <div class="text">
                                     发帖子
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -53,6 +51,11 @@ import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
 import loadingBar from '@/components/loadingBar.vue';
 import goto_top_Icon from '@/components/goto_top_Icon.vue';
+import { useRouter } from 'vue-router'
+import pageHeader from '@/components/page_header.vue';
+
+
+const router = useRouter()
 
 const postPreviews = ref([])
 
@@ -85,22 +88,6 @@ const loadingPost = () => {
 <style lang="scss" scoped>
 .out{
     background-color: $backgroundColorPage;
-    .header{
-        height: 115px;
-        width: 100vw;
-        background-color: white;
-        margin-bottom: $gap_padding;
-        .text{
-            width: 370px;
-            height: 100%;
-            @include aboutColumnCenter;
-            font-size: 40px;
-            font-family: 'AlibabaPuHuiTi-3-85-Bold';
-            font-style: italic;
-        }
-        padding-left: 25%;
-    }
-
     .body{
         width: 1300px;
         min-height: 1000px;

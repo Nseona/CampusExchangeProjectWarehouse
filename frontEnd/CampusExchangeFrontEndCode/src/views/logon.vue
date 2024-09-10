@@ -77,8 +77,6 @@ const clickLogonButton = () => {
 
 <style lang="scss" scoped>
 .out{
-    // width: 1440px;
-    // min-height: 810px;
     margin: auto;
     position: relative;
     .box{

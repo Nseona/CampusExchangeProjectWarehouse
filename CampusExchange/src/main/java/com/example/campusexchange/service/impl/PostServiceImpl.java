@@ -2,21 +2,19 @@ package com.example.campusexchange.service.impl;
 
 import com.example.campusexchange.dao.PostDao;
 import com.example.campusexchange.dao.VisitorUserDao;
-import com.example.campusexchange.dto.Dto;
-import com.example.campusexchange.dto.PostDto;
+import com.example.campusexchange.config.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.PostService;
 import com.example.campusexchange.statusCode.StatusCode;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.PageRowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -34,37 +32,37 @@ public class PostServiceImpl implements PostService {
      * PageHelper.startPage() 的使用 针对下一次查询，之后就会失效
      * 使用 PageInfo 封装查询结果后 可以获得分页信息
      * 查询出 posts 后 将其遍历 把对应的作者姓名查询出来
-     * 利用 PostDto 封装前端需要的数据
+     * 利用 Map 封装前端需要的数据
      */
 
     @Override
-    public Dto getPosts(int pageNow, int pageSize) {
+    public Result getPosts(int pageNow, int pageSize) {
         PageHelper.startPage(pageNow, pageSize);
         List<Post> posts = postDao.selectPostAll();
 
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<Map<String, Object>> data = new ArrayList<>();
 
         posts.forEach(post -> {
             Integer postVisitorUserId = post.getPostVisitorUserId();
             VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(postVisitorUserId);
 
-            PostDto postDto = new PostDto();
+            Map<String, Object> item = new HashMap<>();
 
-            postDto.setPostId(post.getPostId());
-            postDto.setPostTextContent(post.getPostTextContent());
-            postDto.setPostTitle(post.getPostTitle());
-            postDto.setPostPostingTime(post.getPostPostingTime());
-            postDto.setUserName(visitorUser.getUserName());
-            postDto.setPostVisitorUserId(visitorUser.getUserId());
+            item.put("postId", post.getPostId());
+            item.put("postTextContent", post.getPostTextContent());
+            item.put("PostTitle", post.getPostTitle());
+            item.put("PostPostingTime", post.getPostPostingTime());
+            item.put("UserName", visitorUser.getUserName());
+            item.put("postVisitorUserId", visitorUser.getUserId());
 
-            postDtoList.add(postDto);
+            data.add(item);
         });
 
-        Dto dto = new Dto();
-        dto.setMessage("查询成功!");
-        dto.setStatusCode(StatusCode.OK);
-        dto.setData(postDtoList);
+        Result result = new Result();
+        result.setMessage("查询成功!");
+        result.setStatusCode(StatusCode.OK);
+        result.setData(data);
 
-        return dto;
+        return result;
     }
 }

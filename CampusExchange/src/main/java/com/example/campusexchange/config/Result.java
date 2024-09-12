@@ -1,4 +1,4 @@
-package com.example.campusexchange.dto;
+package com.example.campusexchange.config;
 
 /**
  * @author Lucky
@@ -8,33 +8,33 @@ package com.example.campusexchange.dto;
  *
  */
 
-public class Dto {
+public class Result {
     private int statusCode;
     private Object data;
     private String message;
 
-    public Dto() {
+    public Result() {
     }
 
-    public Dto(int statusCode, Object data) {
+    public Result(int statusCode, Object data) {
         this.statusCode = statusCode;
         this.data = data;
     }
 
-    public Dto(int statusCode, Object data, String message) {
+    public Result(int statusCode, Object data, String message) {
         this.statusCode = statusCode;
         this.data = data;
         this.message = message;
     }
 
-    public Dto(int statusCode, String message) {
+    public Result(int statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
 
     @Override
     public String toString() {
-        return "Dto{" +
+        return "Result{" +
                 "statusCode=" + statusCode +
                 ", data=" + data +
                 ", message='" + message + '\'' +

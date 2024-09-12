@@ -1,7 +1,7 @@
 package com.example.campusexchange.service;
 
-import com.example.campusexchange.dto.Dto;
+import com.example.campusexchange.config.Result;
 
 public interface PostService {
-    Dto getPosts(int pageNow, int pageSize);
+    Result getPosts(int pageNow, int pageSize);
 }

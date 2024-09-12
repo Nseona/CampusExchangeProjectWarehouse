@@ -1,6 +1,6 @@
 package com.example.campusexchange.controller;
 
-import com.example.campusexchange.dto.Dto;
+import com.example.campusexchange.config.Result;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class UserController {
     private VisitorUserService visitorUserService;
 
     @PostMapping("/logon")
-    private Dto logOn(@RequestBody VisitorUser visitorUser){
+    private Result logOn(@RequestBody VisitorUser visitorUser){
         return visitorUserService.verifyVisitorUser(visitorUser);
     }
 
     @PostMapping("/signup")
-    private Dto signUp(@RequestBody VisitorUser visitorUser){
+    private Result signUp(@RequestBody VisitorUser visitorUser){
         return visitorUserService.registeredVisitorUser(visitorUser);
     }
 }

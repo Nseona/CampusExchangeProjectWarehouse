@@ -1,7 +1,7 @@
 package com.example.campusexchange.service.impl;
 
 import com.example.campusexchange.dao.VisitorUserDao;
-import com.example.campusexchange.dto.Dto;
+import com.example.campusexchange.config.Result;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
@@ -15,7 +15,7 @@ public class VisitorUserServiceImpl implements VisitorUserService {
     private VisitorUserDao visitorUserDao;
 
     @Override
-    public Dto verifyVisitorUser(VisitorUser visitorUser) {
+    public Result verifyVisitorUser(VisitorUser visitorUser) {
         String userName = visitorUser.getUserName();
         String userPassword = visitorUser.getUserPassword();
         VisitorUser user = visitorUserDao.selectVisitorUserOneByName(userName);
@@ -28,11 +28,11 @@ public class VisitorUserServiceImpl implements VisitorUserService {
             throw new ServiceException(StatusCode.unauthorized, "密码错误!");
         }
 
-        return new Dto(StatusCode.OK, "登录成功!");
+        return new Result(StatusCode.OK, "登录成功!");
     }
 
     @Override
-    public Dto registeredVisitorUser(VisitorUser visitorUser) {
+    public Result registeredVisitorUser(VisitorUser visitorUser) {
         String userName = visitorUser.getUserName();
         String userPassword = visitorUser.getUserPassword();
 
@@ -59,6 +59,6 @@ public class VisitorUserServiceImpl implements VisitorUserService {
             throw new ServiceException(StatusCode.unknownServerError, "服务器繁忙...");
         }
 
-        return new Dto(StatusCode.OK, "注册成功!跳转至登录页");
+        return new Result(StatusCode.OK, "注册成功!跳转至登录页");
     }
 }

@@ -1,7 +1,6 @@
 package com.example.campusexchange.testService;
 
-import ch.qos.logback.classic.spi.EventArgUtil;
-import com.example.campusexchange.dto.Dto;
+import com.example.campusexchange.config.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.service.PostService;
 import com.github.pagehelper.PageInfo;
@@ -17,8 +16,8 @@ public class PostServiceTest {
     private PostService postService;
     @Test
     public void testGetPosts(){
-        Dto dto = postService.getPosts(1, 10);
-        List<Post> posts = (List<Post>) dto.getData();
+        Result result = postService.getPosts(1, 10);
+        List<Post> posts = (List<Post>) result.getData();
 
         for (Post datum : posts) {
             System.out.println(datum.getPostId() + " " + datum.getPostTitle());

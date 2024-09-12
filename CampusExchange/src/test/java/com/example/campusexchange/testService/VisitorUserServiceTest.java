@@ -1,6 +1,6 @@
 package com.example.campusexchange.testService;
 
-import com.example.campusexchange.dto.Dto;
+import com.example.campusexchange.config.Result;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
 import org.junit.jupiter.api.Test;
@@ -19,34 +19,34 @@ public class VisitorUserServiceTest {
         visitorUser.setUserName("lucky");
         visitorUser.setUserPassword("123456");
 
-        Dto dto = visitorUserService.verifyVisitorUser(visitorUser);
+        Result result = visitorUserService.verifyVisitorUser(visitorUser);
 
-        System.out.println(dto);
+        System.out.println(result);
     }
 
     @Test
     public void testRegisteredVisitorUser(){
         VisitorUser visitorUser = new VisitorUser();
-        Dto dto = new Dto();
+        Result result = new Result();
 
         visitorUser.setUserName("avf@");
-        dto = visitorUserService.registeredVisitorUser(visitorUser);
-        System.out.println(dto.getMessage());
+        result = visitorUserService.registeredVisitorUser(visitorUser);
+        System.out.println(result.getMessage());
 
         visitorUser.setUserName("asdf");
         visitorUser.setUserPassword("1234");
-        dto = visitorUserService.registeredVisitorUser(visitorUser);
-        System.out.println(dto.getMessage());
+        result = visitorUserService.registeredVisitorUser(visitorUser);
+        System.out.println(result.getMessage());
 
         visitorUser.setUserName("lucky");
         visitorUser.setUserPassword("aaaaaaaa");
-        dto = visitorUserService.registeredVisitorUser(visitorUser);
-        System.out.println(dto.getMessage());
+        result = visitorUserService.registeredVisitorUser(visitorUser);
+        System.out.println(result.getMessage());
 
         visitorUser.setUserName("zzgghh");
         visitorUser.setUserPassword("aaaaaaaa");
-        dto = visitorUserService.registeredVisitorUser(visitorUser);
-        System.out.println(dto.getMessage());
+        result = visitorUserService.registeredVisitorUser(visitorUser);
+        System.out.println(result.getMessage());
 
     }
 }

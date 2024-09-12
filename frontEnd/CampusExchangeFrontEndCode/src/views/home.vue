@@ -48,6 +48,8 @@
 import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
 import { useRouter } from 'vue-router'
+import { StatusCode } from '@/utils/statusCode';
+import { ElMessage } from 'element-plus'
 import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
 import loadingBar from '@/components/loadingBar.vue';
@@ -78,7 +80,21 @@ const loadingPost = () => {
             pageSize: 10
         }
     }).then(res => {
-        postPreviews.value.push(...res.data.data)
+        const {statusCode} = res.data
+        if (statusCode === StatusCode.refuse){
+            router.push('/logOn')
+
+            ElMessage({
+                message: '请登录',
+                type: 'warning',
+            })
+
+        }
+        
+        if (res.data.data){
+           postPreviews.value.push(...res.data.data) 
+        }
+        
     })
 }
 

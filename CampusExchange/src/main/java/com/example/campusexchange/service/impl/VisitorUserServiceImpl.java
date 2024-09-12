@@ -44,6 +44,8 @@ public class VisitorUserServiceImpl implements VisitorUserService {
 
         Map<String, String> data = new HashMap<>();
         data.put("token", token);
+        data.put("userId", user.getUserId().toString());
+        data.put("userName", user.getUserName());
         return new Result(StatusCode.OK, data, "登录成功!");
     }
 

@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -57,14 +57,18 @@ const clickLogonButton = () => {
     }
 
     request(obj).then(res => {
-        const {statusCode, message} = res.data
+        const {statusCode, message, data} = res.data
         switch (statusCode){
             case StatusCode.OK:
                 ElMessage({
                     message,
                     type: 'success',
                 })
+
                 localStorage.setItem('token', res.data.data.token)
+                localStorage.setItem('userId', res.data.data.userId)
+                localStorage.setItem('userName', res.data.data.userName)
+
                 router.push('/home')
                 break
             case StatusCode.unauthorized:
@@ -72,8 +76,11 @@ const clickLogonButton = () => {
                 break
         }
     })
-
 }
+
+onMounted(() => {
+    userName.value = localStorage.getItem('userName')
+})
 
 </script>
 

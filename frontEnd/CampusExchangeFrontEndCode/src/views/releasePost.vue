@@ -21,21 +21,33 @@
                 </div>
 
                 <div class="uploadBox">
-                    <div class="uploadImg">
-                        <div class="addIcon">
-                            <img src="../assets/img/png/add.png"/>
+                    <el-upload 
+                        class="el-upload"
+                        v-model="fileList"
+                        :auto-upload="false"
+                        :show-file-list="false"
+                        ref="uploadRef"
+                        action="http://localhost:8080/post/upload"
+                        :headers="headers">
+
+                        <div class="uploadImg">
+                            <div class="addIcon">
+                                <img src="../assets/img/png/add.png"/>
+                            </div>
+                            <div class="text">
+                                添加图片
+                            </div>                        
                         </div>
-                        <div class="text">
-                            添加图片
-                        </div>                        
-                    </div>
+
+                    </el-upload>
+
                 </div>
                 
                 <div class="submitBox">
-                    <div class="releaseButton">
+                    <div class="releaseButton" @click="uploadImg()">
                         发布
                     </div>
-                    <div class="cancelButton">
+                    <div class="cancelButton" @click="router.go(-1)">
                         取消
                     </div>
                 </div>
@@ -46,11 +58,35 @@
 
 <script setup>
 import pageHeader from '@/components/page_header.vue';
-import { ElMessage } from 'element-plus'
-import { ref , watch} from 'vue'
+import { request } from '@/utils/request';
+import { ElMessage , ElUpload} from 'element-plus'
+import { ref , watch, onMounted} from 'vue'
+import { useRouter } from 'vue-router'
 
 const titleInput = ref('')
 const contentInput = ref('')
+
+const router = useRouter()
+
+const uploadRef = ref(null)
+
+const uploadImg = () => {
+    uploadRef.value.submit()
+}
+
+const headers = ref({
+    token: localStorage.getItem('token')
+})
+
+const fileList = ref([])
+
+watch(fileList, newValue => {
+    console.log(newValue)
+})
+
+onMounted(() => {
+
+})
 
 watch(titleInput, newValue => {
     console.log(newValue)
@@ -137,30 +173,36 @@ watch(contentInput, newValue => {
                 flex-direction: row;
                 align-items: center;
                 justify-content: start;
-
-                .uploadImg{
-                    border-radius: 10px;
+                .el-upload{
                     width: 140px;
                     height: 140px;
-                    
                     background-color: $backgroundColorPage;
+                    border-radius: 10px;
+                    .uploadImg{
+                        // width: 140px;
+                        // height: 140px;
+                        width: 100%;
+                        height: 100%;
+                        
+                        background-color: $backgroundColorPage;
 
-                    @include aboutColumnCenter;
-                    @include clickButtonShrink;
+                        @include aboutColumnCenter;
+                        @include clickButtonShrink;
 
-                    .addIcon{
-                        width: 45px;
-                        height: 45px;
+                        .addIcon{
+                            width: 45px;
+                            height: 45px;
 
-                        img{
-                            width: 100%;
-                            height: 100%;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
                         }
-                    }
 
-                    .text{
-                        padding-top: 10px;
-                        color: #7F7B7B;
+                        .text{
+                            padding-top: 10px;
+                            color: #7F7B7B;
+                        }
                     }
                 }
             }

@@ -1,6 +1,6 @@
 package com.example.campusexchange.controller;
 
-import com.example.campusexchange.config.Result;
+import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

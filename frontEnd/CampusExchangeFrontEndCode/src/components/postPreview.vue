@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="left">
                     <div class="imgBox">
-                        <img :src="'http://localhost:8080/file/' + imgUrls[randomNumber()] + '.jpg'"/>
+                        <img :src="'http://localhost:8080/file/2.jpg'"/>
                     </div>
                 </div>
 
@@ -36,12 +36,6 @@ const props = defineProps({
     author: String,
     imgUrl: String
 })
-
-const imgUrls = ref([1, 2, 3, 4, 5])
-
-const randomNumber = () => {
-    return  Math.floor(Math.random() * imgUrls.value.length);
-}
 
 </script>
 

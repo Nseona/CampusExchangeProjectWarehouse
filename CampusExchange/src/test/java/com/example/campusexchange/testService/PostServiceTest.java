@@ -1,6 +1,6 @@
 package com.example.campusexchange.testService;
 
-import com.example.campusexchange.config.Result;
+import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.service.PostService;
 import com.github.pagehelper.PageInfo;

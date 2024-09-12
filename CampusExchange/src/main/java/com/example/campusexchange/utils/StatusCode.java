@@ -1,4 +1,4 @@
-package com.example.campusexchange.statusCode;
+package com.example.campusexchange.utils;
 
 /**
  * @author Lucky

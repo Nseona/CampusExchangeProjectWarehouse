@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <goto_top_Icon @goTop="goTop"/>
+            <goto_top_Icon />
         </div>
     </div>
 </template>
@@ -47,13 +47,12 @@
 <script setup>
 import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
+import { useRouter } from 'vue-router'
 import home_navigation from '@/components/home_navigation.vue';
 import postPreview from '@/components/postPreview.vue';
 import loadingBar from '@/components/loadingBar.vue';
 import goto_top_Icon from '@/components/goto_top_Icon.vue';
-import { useRouter } from 'vue-router'
 import pageHeader from '@/components/page_header.vue';
-
 
 const router = useRouter()
 

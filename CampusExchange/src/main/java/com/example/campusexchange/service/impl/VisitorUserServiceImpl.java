@@ -1,13 +1,21 @@
 package com.example.campusexchange.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.campusexchange.dao.VisitorUserDao;
-import com.example.campusexchange.config.Result;
+import com.example.campusexchange.utils.JWTUtils;
+import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
-import com.example.campusexchange.statusCode.StatusCode;
+import com.example.campusexchange.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class VisitorUserServiceImpl implements VisitorUserService {
@@ -28,7 +36,15 @@ public class VisitorUserServiceImpl implements VisitorUserService {
             throw new ServiceException(StatusCode.unauthorized, "密码错误!");
         }
 
-        return new Result(StatusCode.OK, "登录成功!");
+        Map<String, String> load = new HashMap<>();
+        load.put("userId", user.getUserId().toString());
+        load.put("userName", user.getUserName());
+
+        String token = JWTUtils.getToken(load);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("token", token);
+        return new Result(StatusCode.OK, data, "登录成功!");
     }
 
     @Override

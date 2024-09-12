@@ -2,11 +2,11 @@ package com.example.campusexchange.service.impl;
 
 import com.example.campusexchange.dao.PostDao;
 import com.example.campusexchange.dao.VisitorUserDao;
-import com.example.campusexchange.config.Result;
+import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.PostService;
-import com.example.campusexchange.statusCode.StatusCode;
+import com.example.campusexchange.utils.StatusCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,9 +50,9 @@ public class PostServiceImpl implements PostService {
 
             item.put("postId", post.getPostId());
             item.put("postTextContent", post.getPostTextContent());
-            item.put("PostTitle", post.getPostTitle());
-            item.put("PostPostingTime", post.getPostPostingTime());
-            item.put("UserName", visitorUser.getUserName());
+            item.put("postTitle", post.getPostTitle());
+            item.put("postPostingTime", post.getPostPostingTime());
+            item.put("userName", visitorUser.getUserName());
             item.put("postVisitorUserId", visitorUser.getUserId());
 
             data.add(item);

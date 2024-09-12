@@ -64,6 +64,8 @@ const clickLogonButton = () => {
                     message,
                     type: 'success',
                 })
+                localStorage.setItem('token', res.data.data.token)
+                router.push('/home')
                 break
             case StatusCode.unauthorized:
                 ElMessage.error(message)

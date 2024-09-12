@@ -1,4 +1,4 @@
-package com.example.campusexchange.config;
+package com.example.campusexchange.utils;
 
 /**
  * @author Lucky

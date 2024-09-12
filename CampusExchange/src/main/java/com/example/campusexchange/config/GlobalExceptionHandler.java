@@ -1,6 +1,7 @@
 package com.example.campusexchange.config;
 
 import com.example.campusexchange.exception.ServiceException;
+import com.example.campusexchange.utils.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

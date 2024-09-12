@@ -1,6 +1,6 @@
 package com.example.campusexchange.testService;
 
-import com.example.campusexchange.config.Result;
+import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
 import org.junit.jupiter.api.Test;

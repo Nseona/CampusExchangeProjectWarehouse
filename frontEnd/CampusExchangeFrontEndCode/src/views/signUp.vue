@@ -42,7 +42,6 @@ const userPassword = ref("")
 
 const clickLogonButton = () => {
     router.push('/logon')
-
 }
 
 const clickSignUpButton = () => {
@@ -97,8 +96,6 @@ const clickSignUpButton = () => {
 
 <style lang="scss" scoped>
 .out {
-    // width: 1440px;
-    // min-height: 810px;
     margin: auto;
     position: relative;
 

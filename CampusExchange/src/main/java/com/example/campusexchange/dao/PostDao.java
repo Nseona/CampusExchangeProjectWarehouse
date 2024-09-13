@@ -1,10 +1,8 @@
 package com.example.campusexchange.dao;
 
 import com.example.campusexchange.pojo.Post;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.example.campusexchange.pojo.PostPic;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,4 +17,9 @@ public interface PostDao {
             @Result(property = "postTitle", column = "post_title")
     })
     List<Post> selectPostAll();
+
+    @Insert("INSERT INTO " +
+            "post (post_posting_time, post_text_content, post_visitor_user_id, post_title) " +
+            "VALUES (#{postPostingTime}, #{postTextContent}, #{postVisitorUserId}, #{postTitle})")
+    int insertPostOne(Post post);
 }

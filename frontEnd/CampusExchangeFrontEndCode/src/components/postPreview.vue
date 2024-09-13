@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="left">
                     <div class="imgBox">
-                        <img :src="'http://localhost:8080/file/2.jpg'"/>
+                        <img src="http://localhost:8080/file/1.png" />
                     </div>
                 </div>
 

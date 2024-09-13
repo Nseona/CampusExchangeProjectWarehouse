@@ -1,7 +1,9 @@
 package com.example.campusexchange.service.impl;
 
 import com.example.campusexchange.dao.PostDao;
+import com.example.campusexchange.dao.PostPicDao;
 import com.example.campusexchange.dao.VisitorUserDao;
+import com.example.campusexchange.pojo.PostPic;
 import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUser;
@@ -23,6 +25,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private VisitorUserDao visitorUserDao;
+
+    @Autowired
+    private PostPicDao postPicDao;
 
     /**
      *
@@ -64,5 +69,14 @@ public class PostServiceImpl implements PostService {
         result.setData(data);
 
         return result;
+    }
+
+    @Override
+    public Result uploadPost(Post post, PostPic postPic) {
+        int i = postPicDao.insertPostPicOne(postPic);
+
+        int i1 = postDao.insertPostOne(post);
+
+        return null;
     }
 }

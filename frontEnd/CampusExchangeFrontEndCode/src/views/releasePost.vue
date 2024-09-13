@@ -21,14 +21,19 @@
                 </div>
 
                 <div class="uploadBox">
-                    <el-upload 
+                    <div class="el-upload">
+                        <input type="file" @change="handleFileChange">
+                    </div>
+                    <!-- <el-upload 
                         class="el-upload"
-                        v-model="fileList"
                         :auto-upload="false"
                         :show-file-list="false"
                         ref="uploadRef"
                         action="http://localhost:8080/post/upload"
-                        :headers="headers">
+                        :multiple="true"
+                        :headers="headers"
+                        :data="uploadData"
+                        :on-change="onChange">
 
                         <div class="uploadImg">
                             <div class="addIcon">
@@ -39,7 +44,7 @@
                             </div>                        
                         </div>
 
-                    </el-upload>
+                    </el-upload> -->
 
                 </div>
                 
@@ -62,30 +67,56 @@ import { request } from '@/utils/request';
 import { ElMessage , ElUpload} from 'element-plus'
 import { ref , watch, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios';
 
 const titleInput = ref('')
 const contentInput = ref('')
 
+
+const formData = new FormData()
+const handleFileChange = (optios) => {
+    formData.append('fileList', optios.target.files[0])
+}
+
+const file = ref({})
+
 const router = useRouter()
 
 const uploadRef = ref(null)
-
 const uploadImg = () => {
-    uploadRef.value.submit()
+    // uploadRef.value.submit()
+    formData.append('abc', "hello world")
+
+    axios({
+        url: 'http://localhost:8080/post/upload',
+        data: formData,
+        method: 'post',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+
 }
+
+const uploadData = ref({
+    abc: 'hello'
+})
 
 const headers = ref({
     token: localStorage.getItem('token')
 })
 
-const fileList = ref([])
-
-watch(fileList, newValue => {
-    console.log(newValue)
-})
-
 onMounted(() => {
+    // const formData = new FormData()
+    // formData.append('abc', 1)
 
+    // console.log(formData)
+
+    // axios({
+    //     url: 'http://localhost:8080/post/upload',
+    //     formData,
+    //     method: 'post'
+    // })
 })
 
 watch(titleInput, newValue => {

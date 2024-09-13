@@ -9,6 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -24,13 +27,35 @@ public class PostController {
     }
 
     @PostMapping("/upload")
-    public void post(@RequestBody MultipartFile file){
-        String originalFilename = file.getOriginalFilename();
-        try {
-            file.transferTo(new File("C:/Users/Lucky/Pictures/1.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void post(@RequestParam MultipartFile[] fileList, @RequestParam String abc){
+
+        for (int i = 0; i < fileList.length; i++){
+            File dest = new File("C:/Users/Lucky/Desktop/campus-exchange-project-warehouse/CampusExchange/src/main/resources/static/" + fileList[i].getOriginalFilename());
+            try {
+                fileList[i].transferTo(dest);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(fileList[i]);
         }
+
+
+//        Arrays.stream(fileList).forEach(item -> {
+//            File dest = new File("C:/Users/Lucky/Pictures");
+//            try {
+//                item.transferTo(dest);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            System.out.println(item);
+//        });
+
+//        String originalFilename = file.getOriginalFilename();
+//        try {
+//            file.transferTo(new File("C:/Users/Lucky/Pictures/1.png"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 }

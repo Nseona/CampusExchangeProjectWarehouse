@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
 
 
 @SpringBootTest
@@ -24,5 +25,15 @@ public class PostPicDaoTest {
 
         int i = postPicDao.insertPostPicOne(postPic);
         System.out.println(i);
+    }
+
+    @Test
+    public void testSelectPostPicAllByPostId(){
+        List<PostPic> postPics = postPicDao.selectPostPicAllByPostId(131);
+
+        for (PostPic postPic : postPics) {
+            System.out.println(postPic);
+        }
+
     }
 }

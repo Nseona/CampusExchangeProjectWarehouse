@@ -29,6 +29,9 @@ public class PostController {
     @Autowired
     private PostPicService postPicService;
 
+    @Autowired
+    private FileUtils fileUtils;
+
     @GetMapping("/posts")
     public Result posts(@RequestParam(name = "pageNow", required = true) int pageNow,
                         @RequestParam(name = "pageSize", required = true) int pageSize){
@@ -68,9 +71,9 @@ public class PostController {
         if (fileList != null){
             List<PostPic> postPicsList = new ArrayList<>();
             for (int i = 0; i < fileList.length; i++){
-                String fileName = currentTime + i + "." + FileUtils.getFileSuffix(fileList[i]);
+                String fileName = currentTime + i + "." + fileUtils.getFileSuffix(fileList[i]);
 
-                FileUtils.fastenMultipart(fileList[i], fileName);
+                fileUtils.fastenMultipart(fileList[i], fileName);
 
                 PostPic postPic = new PostPic();
                 postPic.setPostId((int) postId);

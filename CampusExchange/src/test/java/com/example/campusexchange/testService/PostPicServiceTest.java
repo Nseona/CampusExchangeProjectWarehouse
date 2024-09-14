@@ -30,4 +30,13 @@ public class PostPicServiceTest {
         postPicService.insertPostPicList(postPicsList);
     }
 
+    @Test
+    public void testGetPostPics(){
+        List<PostPic> postPics = postPicService.getPostPics(131);
+        for (PostPic postPic : postPics) {
+            System.out.println(postPics);
+        }
+
+    }
+
 }

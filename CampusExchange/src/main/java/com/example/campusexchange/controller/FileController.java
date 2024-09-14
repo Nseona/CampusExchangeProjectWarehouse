@@ -14,15 +14,15 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/file")
 public class FileController {
-    @Value("fileRootPath")
-    private String fileRootPath;
-
-    @GetMapping
-    public Result img(@RequestParam String path){
-        String base64 = FileUtils.toBase64(fileRootPath + path);
-        HashMap<String, String> data = new HashMap<>();
-        data.put("base64", base64);
-        return new Result(StatusCode.OK, data, "传输成功");
-    }
+//    @Value("fileRootPath")
+//    private String fileRootPath;
+//
+//    @GetMapping
+//    public Result img(@RequestParam String path){
+//        String base64 = new FileUtils().toBase64(fileRootPath + path);
+//        HashMap<String, String> data = new HashMap<>();
+//        data.put("base64", base64);
+//        return new Result(StatusCode.OK, data, "传输成功");
+//    }
 
 }

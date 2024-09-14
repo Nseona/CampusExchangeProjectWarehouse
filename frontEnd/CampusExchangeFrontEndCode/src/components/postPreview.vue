@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="left">
                     <div class="imgBox">
-                        <img src="http://localhost:8080/file/1.png" />
+                        <img :src = "'data:image/png;base64,' + base64str"/>
                     </div>
                 </div>
 
@@ -28,13 +28,16 @@
 </template>
 
 <script setup>
-import { defineProps , ref} from 'vue'
+import { defineProps , ref, watch, onMounted} from 'vue'
 import { ElText } from 'element-plus'
 const props = defineProps({
     title: String,
     text: String,
     author: String,
-    imgUrl: String
+    postId: int
+})
+onMounted(() => {
+    console.log(props.title)
 })
 
 </script>

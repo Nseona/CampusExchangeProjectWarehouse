@@ -30,7 +30,6 @@ const pageScroll = () => {
     const delta = 35
 
     if (clientHeight + scrollTop >= scrollHeight - delta){
-        console.log('!!')
         emits('touchBottom')
     }
 }

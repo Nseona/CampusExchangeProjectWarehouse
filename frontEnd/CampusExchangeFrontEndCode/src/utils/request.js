@@ -17,6 +17,8 @@ export const request = async (obj) => {
         config.params = data_
     } else if (method_ === 'post') {
         config.data = data_
+    } else {
+        config.data = data_
     }
 
     return await axios(config)

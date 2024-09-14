@@ -1,5 +1,6 @@
 package com.example.campusexchange.service.impl;
 
+import com.example.campusexchange.controller.PostController;
 import com.example.campusexchange.dao.PostDao;
 import com.example.campusexchange.dao.PostPicDao;
 import com.example.campusexchange.dao.VisitorUserDao;
@@ -10,6 +11,8 @@ import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.PostService;
 import com.example.campusexchange.utils.StatusCode;
 import com.github.pagehelper.PageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import java.util.Map;
 
 @Service
 public class PostServiceImpl implements PostService {
+
+
     @Autowired
     private PostDao postDao;
 
@@ -48,6 +53,7 @@ public class PostServiceImpl implements PostService {
         List<Map<String, Object>> data = new ArrayList<>();
 
         posts.forEach(post -> {
+
             Integer postVisitorUserId = post.getPostVisitorUserId();
             VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(postVisitorUserId);
 
@@ -71,12 +77,14 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
+    /**
+     * @param post
+     * @return 插入 post 成功时返回自动设置的 post 主键值
+     */
     @Override
-    public Result uploadPost(Post post, PostPic postPic) {
-        int i = postPicDao.insertPostPicOne(postPic);
+    public long uploadPost(Post post) {
+        int num2 = postDao.insertPostOne(post);
 
-        int i1 = postDao.insertPostOne(post);
-
-        return null;
+        return postDao.getLastInsertId();
     }
 }

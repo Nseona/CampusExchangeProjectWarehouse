@@ -1,0 +1,36 @@
+2024-09-14T14:49:36.128+08:00  INFO 20784 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : Starting CampusExchangeApplication using Java 17.0.11 with PID 20784 (C:\Users\Lucky\Desktop\campus-exchange-project-warehouse\CampusExchange\target\classes started by Lucky in C:\Users\Lucky\Desktop\campus-exchange-project-warehouse\CampusExchange)
+2024-09-14T14:49:36.129+08:00  INFO 20784 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-09-14T14:49:36.809+08:00  INFO 20784 --- [CampusExchange] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-09-14T14:49:36.819+08:00  INFO 20784 --- [CampusExchange] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-14T14:49:36.820+08:00  INFO 20784 --- [CampusExchange] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-14T14:49:36.859+08:00  INFO 20784 --- [CampusExchange] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-14T14:49:36.859+08:00  INFO 20784 --- [CampusExchange] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 698 ms
+2024-09-14T14:49:37.242+08:00  INFO 20784 --- [CampusExchange] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-09-14T14:49:37.248+08:00  INFO 20784 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : Started CampusExchangeApplication in 1.416 seconds (process running for 1.791)
+2024-09-14T14:49:45.744+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-14T14:49:45.745+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-14T14:49:45.746+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-09-14T14:49:45.814+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.controller.UserController          : 用户 userName = zgh, 尝试登录
+2024-09-14T14:49:45.832+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-14T14:49:46.041+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47729a73
+2024-09-14T14:49:46.043+08:00  INFO 20784 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-14T14:50:15.576+08:00  INFO 20784 --- [CampusExchange] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-14T14:50:15.582+08:00  INFO 20784 --- [CampusExchange] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-09-14T14:50:18.232+08:00  INFO 12964 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : Starting CampusExchangeApplication using Java 17.0.11 with PID 12964 (C:\Users\Lucky\Desktop\campus-exchange-project-warehouse\CampusExchange\target\classes started by Lucky in C:\Users\Lucky\Desktop\campus-exchange-project-warehouse\CampusExchange)
+2024-09-14T14:50:18.234+08:00  INFO 12964 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-09-14T14:50:18.930+08:00  INFO 12964 --- [CampusExchange] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-09-14T14:50:18.942+08:00  INFO 12964 --- [CampusExchange] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-14T14:50:18.942+08:00  INFO 12964 --- [CampusExchange] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-14T14:50:18.980+08:00  INFO 12964 --- [CampusExchange] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-14T14:50:18.981+08:00  INFO 12964 --- [CampusExchange] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 719 ms
+2024-09-14T14:50:19.363+08:00  INFO 12964 --- [CampusExchange] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-09-14T14:50:19.370+08:00  INFO 12964 --- [CampusExchange] [main] c.e.c.CampusExchangeApplication          : Started CampusExchangeApplication in 1.456 seconds (process running for 1.89)
+2024-09-14T14:50:24.750+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-14T14:50:24.750+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-14T14:50:24.751+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-09-14T14:50:24.816+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.controller.UserController          : 用户 userName = zgh, 尝试登录
+2024-09-14T14:50:24.828+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-14T14:50:25.017+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@35e64909
+2024-09-14T14:50:25.018+08:00  INFO 12964 --- [CampusExchange] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-14T14:50:44.372+08:00  INFO 12964 --- [CampusExchange] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-14T14:50:44.379+08:00  INFO 12964 --- [CampusExchange] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

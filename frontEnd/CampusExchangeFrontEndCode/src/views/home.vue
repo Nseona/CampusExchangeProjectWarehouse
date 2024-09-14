@@ -17,6 +17,7 @@
                             :title="item.postTitle"
                             :text="item.postTextContent"
                             :author="item.userName"
+                            :postId="item.postId"
                         />
 
                         <loadingBar @touchBottom="touchBottom"/>

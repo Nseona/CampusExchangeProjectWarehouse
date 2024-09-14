@@ -22,4 +22,12 @@ public interface PostDao {
             "post (post_posting_time, post_text_content, post_visitor_user_id, post_title) " +
             "VALUES (#{postPostingTime}, #{postTextContent}, #{postVisitorUserId}, #{postTitle})")
     int insertPostOne(Post post);
+
+
+    /**
+     *
+     * @return 自动生成的主键值
+     */
+    @Select("SELECT LAST_INSERT_ID()")
+    long getLastInsertId();
 }

@@ -24,28 +24,6 @@
                     <div class="el-upload">
                         <input type="file" @change="handleFileChange">
                     </div>
-                    <!-- <el-upload 
-                        class="el-upload"
-                        :auto-upload="false"
-                        :show-file-list="false"
-                        ref="uploadRef"
-                        action="http://localhost:8080/post/upload"
-                        :multiple="true"
-                        :headers="headers"
-                        :data="uploadData"
-                        :on-change="onChange">
-
-                        <div class="uploadImg">
-                            <div class="addIcon">
-                                <img src="../assets/img/png/add.png"/>
-                            </div>
-                            <div class="text">
-                                添加图片
-                            </div>                        
-                        </div>
-
-                    </el-upload> -->
-
                 </div>
                 
                 <div class="submitBox">
@@ -64,7 +42,7 @@
 <script setup>
 import pageHeader from '@/components/page_header.vue';
 import { request } from '@/utils/request';
-import { ElMessage , ElUpload} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { ref , watch, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios';
@@ -78,19 +56,17 @@ const handleFileChange = (optios) => {
     formData.append('fileList', optios.target.files[0])
 }
 
-const file = ref({})
-
 const router = useRouter()
 
-const uploadRef = ref(null)
 const uploadImg = () => {
-    // uploadRef.value.submit()
-    formData.append('abc', "hello world")
+    formData.append('postTextContent', contentInput.value)
+    formData.append('postTitle', titleInput.value)
+    formData.append('postVisitorUserId', Number(localStorage.getItem('userId')))
 
     axios({
-        url: 'http://localhost:8080/post/upload',
+        url: 'http://localhost:8080/post',
         data: formData,
-        method: 'post',
+        method: 'put',
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -98,25 +74,8 @@ const uploadImg = () => {
 
 }
 
-const uploadData = ref({
-    abc: 'hello'
-})
-
-const headers = ref({
-    token: localStorage.getItem('token')
-})
-
 onMounted(() => {
-    // const formData = new FormData()
-    // formData.append('abc', 1)
 
-    // console.log(formData)
-
-    // axios({
-    //     url: 'http://localhost:8080/post/upload',
-    //     formData,
-    //     method: 'post'
-    // })
 })
 
 watch(titleInput, newValue => {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 public class PostServiceTest {
@@ -17,13 +18,14 @@ public class PostServiceTest {
     @Test
     public void testGetPosts(){
         Result result = postService.getPosts(1, 10);
-        List<Post> posts = (List<Post>) result.getData();
+        List<Map<String, Object>> posts = (List<Map<String, Object>>) result.getData();
 
-        for (Post datum : posts) {
-            System.out.println(datum.getPostId() + " " + datum.getPostTitle());
-        }
+        posts.forEach(item -> {
+            System.out.println(item.get("userName"));
+            System.out.println(item.get("postId"));
+        });
 
-        PageInfo<Post> postPageInfo = new PageInfo<>(posts);
+//        PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
     }
 }

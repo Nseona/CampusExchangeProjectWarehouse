@@ -22,5 +22,7 @@ public class PostTest {
         post.setPostPostingTime(new Date());
 
         int i = postDao.insertPostOne(post);
+
+        System.out.println(postDao.getLastInsertId());
     }
 }

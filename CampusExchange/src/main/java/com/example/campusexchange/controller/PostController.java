@@ -1,23 +1,33 @@
 package com.example.campusexchange.controller;
 
 import com.example.campusexchange.pojo.Post;
+import com.example.campusexchange.pojo.PostPic;
+import com.example.campusexchange.service.PostPicService;
+import com.example.campusexchange.utils.FileUtils;
 import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.service.PostService;
+import com.example.campusexchange.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/post")
 public class PostController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostPicService postPicService;
 
     @GetMapping("/posts")
     public Result posts(@RequestParam(name = "pageNow", required = true) int pageNow,
@@ -26,36 +36,54 @@ public class PostController {
         return postService.getPosts(pageNow, pageSize);
     }
 
-    @PostMapping("/upload")
-    public void post(@RequestParam MultipartFile[] fileList, @RequestParam String abc){
+    /**
+     *
+     * @param fileList 用户上传的图片文件
+     * @param postTextContent 帖子内容
+     * @param postVisitorUserId 用户id
+     * @param postTitle 帖子标题
+     *
+     * 先将用户数据封装入实体类，存入数据库后取回自增的帖子 postId
+     * 迭代文件列表 过程中同步的生成 PostPic 实体类， 并将 PostPic 集合插入数据库
+     */
+    @PutMapping
+    public Result post(
+                        @RequestParam(required = false) MultipartFile[] fileList,
+                        @RequestParam String postTextContent,
+                        @RequestParam int postVisitorUserId,
+                        @RequestParam String postTitle){
 
-        for (int i = 0; i < fileList.length; i++){
-            File dest = new File("C:/Users/Lucky/Desktop/campus-exchange-project-warehouse/CampusExchange/src/main/resources/static/" + fileList[i].getOriginalFilename());
-            try {
-                fileList[i].transferTo(dest);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        logger.info("id = " + postVisitorUserId + " 的用户尝试发布帖子");
+
+        String currentTime = String.valueOf(System.currentTimeMillis());
+
+        Post post = new Post();
+        post.setPostVisitorUserId(postVisitorUserId);
+        post.setPostTextContent(postTextContent);
+        post.setPostTitle(postTitle);
+        post.setPostPostingTime(new Date());
+
+        long postId = postService.uploadPost(post);
+
+        if (fileList != null){
+            List<PostPic> postPicsList = new ArrayList<>();
+            for (int i = 0; i < fileList.length; i++){
+                String fileName = currentTime + i + "." + FileUtils.getFileSuffix(fileList[i]);
+
+                FileUtils.fastenMultipart(fileList[i], fileName);
+
+                PostPic postPic = new PostPic();
+                postPic.setPostId((int) postId);
+                postPic.setUploadTime(new Date());
+                postPic.setPath(fileName);
+
+                postPicsList.add(postPic);
             }
-            System.out.println(fileList[i]);
+            postPicService.insertPostPicList(postPicsList);
         }
 
+        logger.info("id = " + postVisitorUserId + " 发布了帖子, post_id = " + postId);
 
-//        Arrays.stream(fileList).forEach(item -> {
-//            File dest = new File("C:/Users/Lucky/Pictures");
-//            try {
-//                item.transferTo(dest);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            System.out.println(item);
-//        });
-
-//        String originalFilename = file.getOriginalFilename();
-//        try {
-//            file.transferTo(new File("C:/Users/Lucky/Pictures/1.png"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        return new Result(StatusCode.OK, "发布成功!");
     }
-
 }

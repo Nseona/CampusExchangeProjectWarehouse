@@ -17,15 +17,8 @@ public class PostServiceTest {
     private PostService postService;
     @Test
     public void testGetPosts(){
-        Result result = postService.getPosts(1, 10);
-        List<Map<String, Object>> posts = (List<Map<String, Object>>) result.getData();
+        List<Map<String, Object>> posts = postService.getPosts(1, 10);
 
-        posts.forEach(item -> {
-            System.out.println(item.get("userName"));
-            System.out.println(item.get("postId"));
-        });
-
-//        PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
     }
 }

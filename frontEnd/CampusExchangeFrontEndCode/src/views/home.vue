@@ -93,7 +93,7 @@ const loadingPost = () => {
         }
         
         if (res.data.data){
-           postPreviews.value.push(...res.data.data) 
+           postPreviews.value.push(...res.data.data.postList) 
         }
         
     })

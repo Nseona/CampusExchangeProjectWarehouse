@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,20 @@ public class PostController {
     public Result posts(@RequestParam(name = "pageNow", required = true) int pageNow,
                         @RequestParam(name = "pageSize", required = true) int pageSize){
 
-        return postService.getPosts(pageNow, pageSize);
+        Map data = postService.getPosts(pageNow, pageSize);
+
+        Result result = new Result();
+
+        result.setStatusCode(StatusCode.OK);
+        result.setData(data);
+
+        if (data.isEmpty()){
+            result.setMessage("没有更多了");
+        } else {
+            result.setMessage("查询成功!");
+        }
+
+        return result;
     }
 
     /**

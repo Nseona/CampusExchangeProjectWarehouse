@@ -30,14 +30,25 @@
 <script setup>
 import { defineProps , ref, watch, onMounted} from 'vue'
 import { ElText } from 'element-plus'
+import { request } from '@/utils/request';
+
+const base64str = ref('')
+
 const props = defineProps({
     title: String,
     text: String,
     author: String,
-    postId: int
+    postId: Number
 })
+
 onMounted(() => {
-    console.log(props.title)
+    request({
+        url_:'/postPic/preview',
+        data_:{postId: props.postId}
+    }).then(res => {
+        base64str.value = res.data.data.base64
+    })
+    
 })
 
 </script>

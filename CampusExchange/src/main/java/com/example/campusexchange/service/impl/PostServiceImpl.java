@@ -11,6 +11,7 @@ import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.PostService;
 import com.example.campusexchange.utils.StatusCode;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +47,12 @@ public class PostServiceImpl implements PostService {
      */
 
     @Override
-    public Result getPosts(int pageNow, int pageSize) {
+    public Map getPosts(int pageNow, int pageSize) {
         PageHelper.startPage(pageNow, pageSize);
         List<Post> posts = postDao.selectPostAll();
+        PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
-        List<Map<String, Object>> data = new ArrayList<>();
+        List<Map<String, Object>> postList = new ArrayList<>();
 
         posts.forEach(post -> {
 
@@ -66,15 +68,15 @@ public class PostServiceImpl implements PostService {
             item.put("userName", visitorUser.getUserName());
             item.put("postVisitorUserId", visitorUser.getUserId());
 
-            data.add(item);
+            postList.add(item);
         });
 
-        Result result = new Result();
-        result.setMessage("查询成功!");
-        result.setStatusCode(StatusCode.OK);
-        result.setData(data);
+        Map<String, Object> data = new HashMap<>();
 
-        return result;
+        data.put("postList", postList);
+        data.put("isHasNextPage", postPageInfo.isHasNextPage());
+
+        return data;
     }
 
     /**

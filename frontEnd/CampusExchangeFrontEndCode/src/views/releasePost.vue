@@ -21,13 +21,18 @@
                 </div>
 
                 <div class="uploadBox">
-                    <div class="el-upload">
-                        <input type="file" @change="handleFileChange">
+                    <div class="uploadImg" @click="uploadImg()">
+                        <div class="addIcon">
+                            <img src="../assets/img/png/add.png"/>
+                        </div>
+                        <div class="text">
+                            添加图片
+                        </div>                        
                     </div>
                 </div>
                 
                 <div class="submitBox">
-                    <div class="releaseButton" @click="uploadImg()">
+                    <div class="releaseButton" @click="uploadPost()">
                         发布
                     </div>
                     <div class="cancelButton" @click="router.go(-1)">
@@ -49,27 +54,56 @@ import axios from 'axios';
 
 const titleInput = ref('')
 const contentInput = ref('')
-
-
+const router = useRouter()
 const formData = new FormData()
+
 const handleFileChange = (optios) => {
+    console.log(optios.target.files[0])
     formData.append('fileList', optios.target.files[0])
 }
 
-const router = useRouter()
-
 const uploadImg = () => {
+    const inputDom = document.createElement('input')
+
+    inputDom.type = "file"
+    inputDom.style.visibility = "hidden"
+    inputDom.addEventListener('change', handleFileChange)
+
+    document.body.appendChild(inputDom);
+
+    inputDom.click()
+}
+
+const uploadPost = () => {
+
+    if (!titleInput.value){
+        ElMessage('给文章起个响亮的标题吧')
+        return
+    }
+
+    if (titleInput.value.length < 2){
+        ElMessage('标题至少两字符')
+        return
+    }
+
+    if (!contentInput.value || contentInput.value.length < 10){
+        ElMessage('文章内容太少了')
+        return
+    }
+
     formData.append('postTextContent', contentInput.value)
     formData.append('postTitle', titleInput.value)
     formData.append('postVisitorUserId', Number(localStorage.getItem('userId')))
 
-    axios({
-        url: 'http://localhost:8080/post',
-        data: formData,
-        method: 'put',
-        headers: {
+    request({
+        url_: '/post',
+        data_: formData,
+        method_: 'put',
+        headers_: {
             'Content-Type': 'multipart/form-data'
         }
+    }).then(res => {
+        console.log(res.data)
     })
 
 }
@@ -79,7 +113,6 @@ onMounted(() => {
 })
 
 watch(titleInput, newValue => {
-    console.log(newValue)
     if (newValue.length >= 30){
         ElMessage({
             message: '帖子标题不能超过30个字哦',
@@ -89,7 +122,6 @@ watch(titleInput, newValue => {
 })
 
 watch(contentInput, newValue => {
-    console.log(newValue)
     if (newValue.length >= 2000){
         ElMessage({
             message: '帖子内容不能超过2000个字哦',
@@ -102,6 +134,7 @@ watch(contentInput, newValue => {
 <style lang="scss" scoped>
 .out{
     background-color: $backgroundColorPage;
+    position: relative;
     .body{
         width: 1300px;
         height: 900px;
@@ -163,36 +196,29 @@ watch(contentInput, newValue => {
                 flex-direction: row;
                 align-items: center;
                 justify-content: start;
-                .el-upload{
-                    width: 140px;
-                    height: 140px;
+                .uploadImg{
                     background-color: $backgroundColorPage;
                     border-radius: 10px;
-                    .uploadImg{
-                        // width: 140px;
-                        // height: 140px;
-                        width: 100%;
-                        height: 100%;
-                        
-                        background-color: $backgroundColorPage;
+                    width: 140px;
+                    height: 140px;
+                    
+                    background-color: $backgroundColorPage;
 
-                        @include aboutColumnCenter;
-                        @include clickButtonShrink;
+                    @include aboutColumnCenter;
+                    @include clickButtonShrink;
 
-                        .addIcon{
-                            width: 45px;
-                            height: 45px;
-
-                            img{
-                                width: 100%;
-                                height: 100%;
-                            }
+                    .addIcon{
+                        width: 45px;
+                        height: 45px;
+                        img{
+                            width: 100%;
+                            height: 100%;
                         }
+                    }
 
-                        .text{
-                            padding-top: 10px;
-                            color: #7F7B7B;
-                        }
+                    .text{
+                        padding-top: 10px;
+                        color: #7F7B7B;
                     }
                 }
             }

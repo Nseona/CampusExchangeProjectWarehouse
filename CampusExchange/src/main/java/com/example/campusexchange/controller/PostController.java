@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +34,7 @@ public class PostController {
     public Result posts(@RequestParam(name = "pageNow", required = true) int pageNow,
                         @RequestParam(name = "pageSize", required = true) int pageSize){
 
-        Map data = postService.getPosts(pageNow, pageSize);
+        Map data = postService.getPostsByTimeDesc(pageNow, pageSize);
 
         Result result = new Result();
 

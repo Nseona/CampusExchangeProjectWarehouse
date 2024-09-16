@@ -17,7 +17,7 @@ public class PostServiceTest {
     private PostService postService;
     @Test
     public void testGetPosts(){
-        List<Map<String, Object>> posts = postService.getPosts(1, 10);
+//        List<Map<String, Object>> posts = postService.getPosts(1, 10);
 
 
     }

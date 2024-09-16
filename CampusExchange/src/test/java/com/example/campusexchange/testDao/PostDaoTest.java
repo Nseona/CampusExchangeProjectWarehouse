@@ -1,13 +1,12 @@
 package com.example.campusexchange.testDao;
 
 import com.example.campusexchange.dao.PostDao;
+import com.example.campusexchange.pojo.Post;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.example.campusexchange.pojo.Post;
 
 import java.util.Date;
 import java.util.List;
@@ -41,5 +40,22 @@ public class PostDaoTest {
 
     }
 
+    @Test
+    public void testSelectPostAllByField(){
+        PageHelper.startPage(2, 3);
+        List<Post> posts = postDao.selectPostAllByField("ASC", "post_id");
+        for (Post post : posts) {
+            System.out.println(post.getPostId());
+        }
+    }
+
+    @Test
+    public void testSelectPostByFieldAndLimit(){
+        List<Post> posts = postDao.selectPostByFieldAndLimit(3, 3, "post_id", "DESC");
+        for (Post post : posts) {
+            System.out.println(post);
+        }
+
+    }
 
 }

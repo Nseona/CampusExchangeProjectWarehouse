@@ -33,7 +33,7 @@ public class JWTUtils {
 
         Calendar instance = Calendar.getInstance();
 
-        instance.add(Calendar.MINUTE,120);
+        instance.add(Calendar.DATE,7);
 
         builder.withExpiresAt(instance.getTime());
 

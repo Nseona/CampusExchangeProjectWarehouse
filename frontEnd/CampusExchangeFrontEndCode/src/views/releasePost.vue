@@ -20,16 +20,7 @@
                     </textarea>
                 </div>
 
-                <div class="uploadBox">
-                    <div class="uploadImg" @click="uploadImg()">
-                        <div class="addIcon">
-                            <img src="../assets/img/png/add.png"/>
-                        </div>
-                        <div class="text">
-                            添加图片
-                        </div>                        
-                    </div>
-                </div>
+                <uploadImgComponent @uploadImg="uploadImg"/>
                 
                 <div class="submitBox">
                     <div class="releaseButton" @click="uploadPost()">
@@ -44,38 +35,26 @@
     </div>
 </template>
 
-<script setup>
-import pageHeader from '@/components/page_header.vue';
+<script setup lang="jsx">
 import { request } from '@/utils/request';
 import { ElMessage } from 'element-plus'
-import { ref , watch, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios';
+import { ref , watch, onMounted, h,render } from 'vue'
+import pageHeader from '@/components/page_header.vue';
+import uploadImgComponent from '@/components/uploadImg-component.vue';
 
 const titleInput = ref('')
 const contentInput = ref('')
 const router = useRouter()
 const formData = new FormData()
 
-const handleFileChange = (optios) => {
-    console.log(optios.target.files[0])
-    formData.append('fileList', optios.target.files[0])
-}
-
-const uploadImg = () => {
-    const inputDom = document.createElement('input')
-
-    inputDom.type = "file"
-    inputDom.style.visibility = "hidden"
-    inputDom.addEventListener('change', handleFileChange)
-
-    document.body.appendChild(inputDom);
-
-    inputDom.click()
+const uploadImg = (files) => {
+    files.forEach(file => {
+        formData.append('fileList', file)
+    })
 }
 
 const uploadPost = () => {
-
     if (!titleInput.value){
         ElMessage('给文章起个响亮的标题吧')
         return
@@ -94,7 +73,7 @@ const uploadPost = () => {
     formData.append('postTextContent', contentInput.value)
     formData.append('postTitle', titleInput.value)
     formData.append('postVisitorUserId', Number(localStorage.getItem('userId')))
-
+    
     request({
         url_: '/post',
         data_: formData,
@@ -103,14 +82,22 @@ const uploadPost = () => {
             'Content-Type': 'multipart/form-data'
         }
     }).then(res => {
-        console.log(res.data)
+        if (res.data.statusCode === 200){
+            ElMessage({
+                message:res.data.message,
+                type: 'success',
+            })
+
+            router.push('/home')
+        } else {
+            ElMessage({
+                message: res.data.message,
+                type: 'warning',
+            })
+        }
     })
 
 }
-
-onMounted(() => {
-
-})
 
 watch(titleInput, newValue => {
     if (newValue.length >= 30){
@@ -183,43 +170,6 @@ watch(contentInput, newValue => {
                     background-color: $backgroundColorPage;
 
                     resize: none;
-                }
-            }
-
-            .uploadBox{
-                width: 100%;
-                height: 170px;
-
-                padding-left: 50px;
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: start;
-                .uploadImg{
-                    background-color: $backgroundColorPage;
-                    border-radius: 10px;
-                    width: 140px;
-                    height: 140px;
-                    
-                    background-color: $backgroundColorPage;
-
-                    @include aboutColumnCenter;
-                    @include clickButtonShrink;
-
-                    .addIcon{
-                        width: 45px;
-                        height: 45px;
-                        img{
-                            width: 100%;
-                            height: 100%;
-                        }
-                    }
-
-                    .text{
-                        padding-top: 10px;
-                        color: #7F7B7B;
-                    }
                 }
             }
 

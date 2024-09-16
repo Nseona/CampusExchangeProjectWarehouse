@@ -10,6 +10,8 @@ package com.example.campusexchange.utils;
  * 401 - 请求未通过身份验证，或者访问被拒绝
  * 403 - 服务器理解请求，但拒绝执行
  * 503 - 服务器的未知错误
+ * 204 - 服务器成功处理请求，但没有返回任何内容。
+ * 500 - 服务器遇到内部错误，无法完成请求。
  */
 public interface StatusCode {
     int OK = 200;
@@ -17,4 +19,6 @@ public interface StatusCode {
     int nonStandard = 400;
     int unknownServerError = 503;
     int refuse = 403;
+    int notContent = 204;
+    int internalError = 500;
 }

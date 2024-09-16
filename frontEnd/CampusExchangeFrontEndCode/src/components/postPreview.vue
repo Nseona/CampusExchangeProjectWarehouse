@@ -1,8 +1,8 @@
 <template>
     <div class="out">
         <div class="item">
-            <div class="box">
-                <div class="left">
+            <div class="box" ref="box">
+                <div class="left" v-show="isShowPostPic">
                     <div class="imgBox">
                         <img :src = "'data:image/png;base64,' + base64str"/>
                     </div>
@@ -34,6 +34,10 @@ import { request } from '@/utils/request';
 
 const base64str = ref('')
 
+const isShowPostPic = ref(true)
+
+const box = ref(null)
+
 const props = defineProps({
     title: String,
     text: String,
@@ -46,6 +50,14 @@ onMounted(() => {
         url_:'/postPic/preview',
         data_:{postId: props.postId}
     }).then(res => {
+        // 文章无图片时改变布局
+        if (res.data.statusCode != 200){
+            isShowPostPic.value = false
+            box.value.style.display = 'block'
+            box.value.style.gridTemplateColumns = 'none'
+            return
+        } 
+
         base64str.value = res.data.data.base64
     })
     
@@ -79,6 +91,8 @@ onMounted(() => {
                 .imgBox{
                     width: 100%;
                     height: 100%;
+                    border-radius: 7px;
+                    overflow: hidden;
 
                     img {
                         width: 100%;
@@ -91,6 +105,7 @@ onMounted(() => {
             .right{
                 display: grid;
                 grid-template-rows: 1fr 4fr;
+                width: 100%;
                 &>div{
                     width: 100%;
                 }

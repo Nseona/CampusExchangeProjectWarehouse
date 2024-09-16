@@ -49,9 +49,48 @@ public class PostServiceImpl implements PostService {
     @Override
     public Map getPosts(int pageNow, int pageSize) {
         PageHelper.startPage(pageNow, pageSize);
+
         List<Post> posts = postDao.selectPostAll();
+
         PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
+        List<Map<String, Object>> postList = buildPostList(posts);
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("postList", postList);
+        data.put("isHasNextPage", postPageInfo.isHasNextPage());
+
+        return data;
+    }
+
+    /**
+     * @param post
+     * @return 插入 post 成功时返回自动设置的 post 主键值
+     */
+    @Override
+    public long uploadPost(Post post) {
+        postDao.insertPostOne(post);
+        return postDao.getLastInsertId();
+    }
+
+    @Override
+    public Map getPostsByTimeDesc(int pageNow, int pageSize) {
+        PageHelper.startPage(pageNow, pageSize);
+        List<Post> posts = postDao.selectPostAllByField("DESC", "post_posting_time");
+        List<Map<String, Object>> postList = buildPostList(posts);
+        PageInfo<Post> postPageInfo = new PageInfo<>(posts);
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("postList", postList);
+        data.put("isHasNextPage", postPageInfo.isHasNextPage());
+
+        return data;
+    }
+
+    @Override
+    public List<Map<String, Object>> buildPostList(List<Post> posts) {
         List<Map<String, Object>> postList = new ArrayList<>();
 
         posts.forEach(post -> {
@@ -71,22 +110,6 @@ public class PostServiceImpl implements PostService {
             postList.add(item);
         });
 
-        Map<String, Object> data = new HashMap<>();
-
-        data.put("postList", postList);
-        data.put("isHasNextPage", postPageInfo.isHasNextPage());
-
-        return data;
-    }
-
-    /**
-     * @param post
-     * @return 插入 post 成功时返回自动设置的 post 主键值
-     */
-    @Override
-    public long uploadPost(Post post) {
-        int num2 = postDao.insertPostOne(post);
-
-        return postDao.getLastInsertId();
+        return postList;
     }
 }

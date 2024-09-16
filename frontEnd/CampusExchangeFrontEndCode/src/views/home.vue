@@ -20,7 +20,7 @@
                             :postId="item.postId"
                         />
 
-                        <loadingBar @touchBottom="touchBottom"/>
+                        <loadingBar @touchBottom="touchBottom" v-if="isLoadingBarShow"/>
                     </div>
                 </div>
 
@@ -61,6 +61,10 @@ const router = useRouter()
 
 const postPreviews = ref([])
 
+const isLoadingBarShow = ref(true)
+
+let pageNow = 1
+
 const clickOption = (index) => {
     console.log(index)
 }
@@ -74,11 +78,16 @@ const touchBottom = () => {
 }
 
 const loadingPost = () => {
+
+    if (!isLoadingBarShow.value){
+        return
+    }
+
     request({
         url_: '/post/posts',
         data_: {
-            pageNow: 1,
-            pageSize: 10
+            pageNow: pageNow++,
+            pageSize: 4
         }
     }).then(res => {
         const {statusCode} = res.data
@@ -89,12 +98,17 @@ const loadingPost = () => {
                 message: '请登录',
                 type: 'warning',
             })
-
         }
         
-        if (res.data.data){
-           postPreviews.value.push(...res.data.data.postList) 
+        const {postList, isHasNextPage} = res.data.data
+
+        if (!isHasNextPage){
+            ElMessage('没有更多了')
+            isLoadingBarShow.value = isHasNextPage
         }
+        
+        postPreviews.value.push(...postList)        
+
         
     })
 }

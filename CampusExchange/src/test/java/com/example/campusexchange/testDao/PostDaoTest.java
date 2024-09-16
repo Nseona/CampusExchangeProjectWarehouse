@@ -49,13 +49,13 @@ public class PostDaoTest {
         }
     }
 
-    @Test
-    public void testSelectPostByFieldAndLimit(){
-        List<Post> posts = postDao.selectPostByFieldAndLimit(3, 3, "post_id", "DESC");
-        for (Post post : posts) {
-            System.out.println(post);
-        }
 
+    @Test
+    public void testSelectPostOneByPostId(){
+        Post post = postDao.selectPostOneByPostId(900);
+        System.out.println(post);
     }
+
+
 
 }

@@ -4,7 +4,9 @@ import com.example.campusexchange.controller.PostController;
 import com.example.campusexchange.dao.PostDao;
 import com.example.campusexchange.dao.PostPicDao;
 import com.example.campusexchange.dao.VisitorUserDao;
+import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.PostPic;
+import com.example.campusexchange.utils.PostServiceUtils;
 import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUser;
@@ -17,14 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
-
 
     @Autowired
     private PostDao postDao;
@@ -34,6 +32,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostPicDao postPicDao;
+
+    @Autowired
+    private PostServiceUtils postServiceUtils;
 
     /**
      *
@@ -54,7 +55,7 @@ public class PostServiceImpl implements PostService {
 
         PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
-        List<Map<String, Object>> postList = buildPostList(posts);
+        List<Map<String, Object>> postList = postServiceUtils.buildPostList(posts);
 
         Map<String, Object> data = new HashMap<>();
 
@@ -62,6 +63,17 @@ public class PostServiceImpl implements PostService {
         data.put("isHasNextPage", postPageInfo.isHasNextPage());
 
         return data;
+    }
+
+    @Override
+    public Map<String, Object> getPostDetails(int postId) {
+        Post post = postDao.selectPostOneByPostId(postId);
+
+        if (post == null){
+            throw new ServiceException(StatusCode.notFound, "该帖子不存在");
+        }
+
+        return postServiceUtils.buildPost(post);
     }
 
     /**
@@ -78,7 +90,7 @@ public class PostServiceImpl implements PostService {
     public Map getPostsByTimeDesc(int pageNow, int pageSize) {
         PageHelper.startPage(pageNow, pageSize);
         List<Post> posts = postDao.selectPostAllByField("DESC", "post_posting_time");
-        List<Map<String, Object>> postList = buildPostList(posts);
+        List<Map<String, Object>> postList = postServiceUtils.buildPostList(posts);
         PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
         Map<String, Object> data = new HashMap<>();
@@ -89,27 +101,5 @@ public class PostServiceImpl implements PostService {
         return data;
     }
 
-    @Override
-    public List<Map<String, Object>> buildPostList(List<Post> posts) {
-        List<Map<String, Object>> postList = new ArrayList<>();
 
-        posts.forEach(post -> {
-
-            Integer postVisitorUserId = post.getPostVisitorUserId();
-            VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(postVisitorUserId);
-
-            Map<String, Object> item = new HashMap<>();
-
-            item.put("postId", post.getPostId());
-            item.put("postTextContent", post.getPostTextContent());
-            item.put("postTitle", post.getPostTitle());
-            item.put("postPostingTime", post.getPostPostingTime());
-            item.put("userName", visitorUser.getUserName());
-            item.put("postVisitorUserId", visitorUser.getUserId());
-
-            postList.add(item);
-        });
-
-        return postList;
-    }
 }

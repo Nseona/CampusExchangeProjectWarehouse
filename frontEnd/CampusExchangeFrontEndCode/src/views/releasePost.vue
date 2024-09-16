@@ -32,6 +32,7 @@
                 </div>
             </div>
         </div>
+        <pageFooter />
     </div>
 </template>
 
@@ -42,6 +43,7 @@ import { useRouter } from 'vue-router'
 import { ref , watch, onMounted, h,render } from 'vue'
 import pageHeader from '@/components/page_header.vue';
 import uploadImgComponent from '@/components/uploadImg-component.vue';
+import pageFooter from '@/components/pageFooter.vue';
 
 const titleInput = ref('')
 const contentInput = ref('')

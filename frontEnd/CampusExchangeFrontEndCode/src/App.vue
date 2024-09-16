@@ -1,9 +1,20 @@
-<script>
-</script>
 <template>
-  <RouterView />
+  <router-view v-slot="{ Component }">
+
+    <keep-alive>
+      <component v-if="shouldKeepAlive" :is="Component" />
+    </keep-alive>
+
+      <component v-if="!shouldKeepAlive" :is="Component" />
+  </router-view>
 </template>
 
-<style scoped>
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { KeepAlive } from 'vue';
 
-</style>
+const route = useRoute();
+const shouldKeepAlive = computed(() => route.meta.keepAlive);
+
+</script>

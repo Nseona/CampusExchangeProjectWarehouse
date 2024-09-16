@@ -19,7 +19,7 @@ public interface PostDao {
     })
     List<Post> selectPostAll();
 
-//
+
     /**
      *
      * @param mode 升序(ASC)或 降序(DESC)查询数据
@@ -27,7 +27,6 @@ public interface PostDao {
      *
      * 注意 sql 语句中使用 $ 接收参数
      */
-
     @Select("""
                 SELECT *
                 FROM post
@@ -42,22 +41,7 @@ public interface PostDao {
     })
     List<Post> selectPostAllByField(String mode, String field);
 
-    @Select("""
-                SELECT *
-                FROM post
-                ORDER BY ${field} ${mode}
-                LIMIT ${offset}, ${count}
-            """)
-    @Results({
-            @Result(property = "postId", column = "post_id"),
-            @Result(property = "postPostingTime", column = "post_posting_time"),
-            @Result(property = "postTextContent", column = "post_text_content"),
-            @Result(property = "postVisitorUserId", column = "post_visitor_user_id"),
-            @Result(property = "postTitle", column = "post_title")
-    })
-    List<Post> selectPostByFieldAndLimit(int offset, int count, String field, String mode);
 
-//
     @Insert("""
             INSERT INTO
             post (post_posting_time, post_text_content, post_visitor_user_id, post_title)
@@ -65,9 +49,19 @@ public interface PostDao {
             """)
     int insertPostOne(Post post);
 
-//
+
+    @Select("select * from post where post_id = #{postId}")
+    @Results({
+            @Result(property = "postId", column = "post_id"),
+            @Result(property = "postPostingTime", column = "post_posting_time"),
+            @Result(property = "postTextContent", column = "post_text_content"),
+            @Result(property = "postVisitorUserId", column = "post_visitor_user_id"),
+            @Result(property = "postTitle", column = "post_title")
+    })
+    Post selectPostOneByPostId(int postId);
+
+
     /**
-     *
      * @return 自动生成的主键值
      */
     @Select("SELECT LAST_INSERT_ID()")

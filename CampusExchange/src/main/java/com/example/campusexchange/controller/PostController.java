@@ -31,8 +31,8 @@ public class PostController {
     private FileUtils fileUtils;
 
     @GetMapping("/posts")
-    public Result posts(@RequestParam(name = "pageNow", required = true) int pageNow,
-                        @RequestParam(name = "pageSize", required = true) int pageSize){
+    public Result getPosts(@RequestParam(name = "pageNow", required = true) int pageNow,
+                           @RequestParam(name = "pageSize", required = true) int pageSize){
 
         Map data = postService.getPostsByTimeDesc(pageNow, pageSize);
 
@@ -42,10 +42,28 @@ public class PostController {
         result.setData(data);
 
         if (data.isEmpty()){
+
             result.setMessage("没有更多了");
         } else {
             result.setMessage("查询成功!");
         }
+
+        return result;
+    }
+
+    @GetMapping("/post")
+    public Result getPost(@RequestParam(name = "postId") int postId){
+
+        Map<String, Object> postDetails = postService.getPostDetails(postId);
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("postDetails", postDetails);
+
+        Result result = new Result();
+        result.setStatusCode(StatusCode.OK);
+        result.setData(data);
+        result.setMessage("查询成功!");
 
         return result;
     }
@@ -61,7 +79,7 @@ public class PostController {
      * 迭代文件列表 过程中同步的生成 PostPic 实体类， 并将 PostPic 集合插入数据库
      */
     @PutMapping
-    public Result post(
+    public Result putPost(
                         @RequestParam(required = false) MultipartFile[] fileList,
                         @RequestParam String postTextContent,
                         @RequestParam int postVisitorUserId,

@@ -12,6 +12,7 @@ package com.example.campusexchange.utils;
  * 503 - 服务器的未知错误
  * 204 - 服务器成功处理请求，但没有返回任何内容。
  * 500 - 服务器遇到内部错误，无法完成请求。
+ * 404 - 服务器找不到客户端请求寻找的资源
  */
 public interface StatusCode {
     int OK = 200;
@@ -21,4 +22,5 @@ public interface StatusCode {
     int refuse = 403;
     int notContent = 204;
     int internalError = 500;
+    int notFound = 404;
 }

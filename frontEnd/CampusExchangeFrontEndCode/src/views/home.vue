@@ -18,6 +18,7 @@
                             :text="item.postTextContent"
                             :author="item.userName"
                             :postId="item.postId"
+                            @click="clickPreview(item.postId)"
                         />
 
                         <loadingBar @touchBottom="touchBottom" v-if="isLoadingBarShow"/>
@@ -42,11 +43,12 @@
 
             <goto_top_Icon />
         </div>
+        <pageFooter />
     </div>
 </template>
 
 <script setup>
-import { ref , onMounted} from 'vue'
+import { ref , onMounted, defineOptions} from 'vue'
 import { request } from '@/utils/request'
 import { useRouter } from 'vue-router'
 import { StatusCode } from '@/utils/statusCode';
@@ -56,6 +58,7 @@ import postPreview from '@/components/postPreview.vue';
 import loadingBar from '@/components/loadingBar.vue';
 import goto_top_Icon from '@/components/goto_top_Icon.vue';
 import pageHeader from '@/components/page_header.vue';
+import pageFooter from '@/components/pageFooter.vue';
 
 const router = useRouter()
 
@@ -64,6 +67,15 @@ const postPreviews = ref([])
 const isLoadingBarShow = ref(true)
 
 let pageNow = 1
+
+const clickPreview = (postId) => {
+    router.push({
+        path: '/postDetails',
+        query: {
+            postId
+        }
+    })
+}
 
 const clickOption = (index) => {
     console.log(index)
@@ -109,7 +121,6 @@ const loadingPost = () => {
         
         postPreviews.value.push(...postList)        
 
-        
     })
 }
 

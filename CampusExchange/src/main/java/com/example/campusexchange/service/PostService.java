@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface PostService {
-    Map getPosts(int pageNow, int pageSize);
+    Map<String, Object> getPosts(int pageNow, int pageSize);
+    Map<String, Object> getPostDetails(int postId);
     long uploadPost(Post post);
     Map getPostsByTimeDesc(int pageNow, int pageSize);
 
-    List<Map<String, Object>>  buildPostList(List<Post> posts);
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="out">
         <div class="item">
-            <div class="box" ref="box">
+            <div class="box" ref="box" >
                 <div class="left" v-show="isShowPostPic">
                     <div class="imgBox">
                         <img :src = "'data:image/png;base64,' + base64str"/>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { defineProps , ref, watch, onMounted} from 'vue'
+import { defineProps , ref, onMounted} from 'vue'
 import { ElText } from 'element-plus'
 import { request } from '@/utils/request';
 

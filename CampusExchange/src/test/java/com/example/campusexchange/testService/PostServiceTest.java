@@ -17,8 +17,14 @@ public class PostServiceTest {
     private PostService postService;
     @Test
     public void testGetPosts(){
-//        List<Map<String, Object>> posts = postService.getPosts(1, 10);
+        Map<String, Object> posts = postService.getPosts(1, 10);
+        System.out.println(posts.get("postList"));
+    }
 
+    @Test
+    public void testGetPostDetails(){
+        Map<String, Object> postDetails = postService.getPostDetails(900);
+        System.out.println(postDetails);
 
     }
 }

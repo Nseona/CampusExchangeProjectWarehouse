@@ -38,30 +38,14 @@
                         </div>
 
                         <div class="toolbar">
-                            <div class="">
-                                <div class="icon">
-                                    <img src="../assets/img/png/goodIcon.png"/>
-                                </div>
-                                <div class="number">123</div>
-                            </div>
-                            <div class="">
-                                <div class="icon">
-                                    <img src="../assets/img/png/commentIcon.png"/>
-                                </div>
-                                <div class="number">123</div>
-                            </div>
-                            <div class="">
-                                <div class="icon">
-                                    <img src="../assets/img/png/collectIcon.png"/>
-                                </div>
-                                <div class="number">123</div>
-                            </div>
-                            <div class="">
-                                <div class="icon">
-                                    <img src="../assets/img/png/forwardIcon.png"/>
-                                </div>
-                                <div class="number">123</div>
-                            </div>
+                            <toolbarItem 
+                                v-for="(item, index) in toolbarIconList"
+                                :svgName="item.svgName"
+                                :defaultColor="item.defaultColor"
+                                :selectColor="item.selectColor"
+                                :userId="userId"
+                                :postId="postId"
+                                number="123"/>
                         </div>
 
                     </div>
@@ -83,21 +67,29 @@ import moment from 'moment';
 import goto_top_Icon from '@/components/goto_top_Icon.vue';
 import pageHeader from '@/components/page_header.vue';
 import pageFooter from '@/components/pageFooter.vue';
+import toolbarItem from '@/components/toolbarItem.vue';
 
-const route = useRoute() // 获取路由参数
-
+const route = useRoute() 
 const postTextContent = ref('')
 const postTitle = ref('')
 const userName = ref('')
 const postPostingTime = ref('')
 const imgList = ref([])
+const toolbarIconList = ref([
+    {svgName:'like', selectColor:'#00AEEC'},
+    {svgName:'collect', selectColor: '#DF8130'},
+    {svgName:'comment'},
+    {svgName:'relay'}
+])
+
+const postId = ref(route.query.postId);
+const userId = ref(localStorage.getItem('userId'))
 
 onMounted(() => {
-    
     request({
-        url_: '/post/post',
+        url_: '/post',
         data_: {
-            postId: route.query.postId
+            postId:postId.value
         }
     }).then(res => {
         const {statusCode, message} = res.data
@@ -114,9 +106,9 @@ onMounted(() => {
     })
 
     request({
-        url_:'/postPic/',
+        url_:'/postPic',
         data_:{
-            postId: route.query.postId
+            postId:postId.value
         }
     }).then(res => {
         if (res.data.statusCode === StatusCode.OK){
@@ -239,13 +231,6 @@ onMounted(() => {
                             .imgBox{
                                 width: 100%;
                                 height: 100%;
-                                
-                                // img{
-                                //     width: 100%;
-                                //     height: 100%;
-
-                                //     object-fit: cover;
-                                // }
                             }
                         }
                     }
@@ -260,26 +245,27 @@ onMounted(() => {
                         align-items: center;
                         justify-content: start;
 
-                        &>div{
-                            @include aboutRowCenter;
-                            width: 100px;
-                            height: 100%;
-                            padding-right: 20px;
+                        // &>div{
+                        //     @include aboutRowCenter;
+                        //     @include clickButtonShrink;
+                        //     width: 100px;
+                        //     height: 40%;
+                        //     padding-right: 20px;
 
-                            .icon{
-                                width: 25px;
-                                height: 25px;
-                                img{
-                                    width: 100%;
-                                    height: 100%;
-                                }
-                            }
-                            .number{
-                                padding-left: 10px;
-                                font-size: 12px;
-                                color: $fontColor999;
-                            }
-                        }
+                        //     .icon{
+                        //         width: 25px;
+                        //         height: 25px;
+                        //         img{
+                        //             width: 100%;
+                        //             height: 100%;
+                        //         }
+                        //     }
+                        //     .number{
+                        //         padding-left: 10px;
+                        //         font-size: 12px;
+                        //         color: $fontColor999;
+                        //     }
+                        // }
                     }
                 }
             }

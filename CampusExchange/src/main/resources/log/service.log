@@ -1,62 +1,18 @@
-2024-09-16T10:36:23.520+08:00  WARN 7852 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.controller.PostController          : null
-2024-09-16T10:38:34.278+08:00  WARN 7852 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.controller.PostController          : null
-2024-09-16T10:41:30.635+08:00  WARN 7852 --- [CampusExchange] [http-nio-8080-exec-8] c.e.c.controller.PostController          : [org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@ad09d0b, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@485a9797, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@35a5b625]
-2024-09-16T16:38:03.409+08:00 ERROR 21428 --- [CampusExchange] [http-nio-8080-exec-6] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "com.example.campusexchange.pojo.Post.getPostVisitorUserId()" because "post" is null] with root cause
-
-java.lang.NullPointerException: Cannot invoke "com.example.campusexchange.pojo.Post.getPostVisitorUserId()" because "post" is null
-	at com.example.campusexchange.utils.PostServiceUtils.buildPost(PostServiceUtils.java:28) ~[classes/:na]
-	at com.example.campusexchange.service.impl.PostServiceImpl.getPostDetails(PostServiceImpl.java:70) ~[classes/:na]
-	at com.example.campusexchange.controller.PostController.getPost(PostController.java:57) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.28.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.12.jar:6.1.12]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.28.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.12.jar:6.1.12]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:904) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-
-2024-09-16T16:50:36.150+08:00  WARN 12904 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.config.GlobalExceptionHandler      : 该帖子不存在
-2024-09-16T16:53:19.520+08:00  WARN 12904 --- [CampusExchange] [http-nio-8080-exec-6] c.e.c.config.GlobalExceptionHandler      : 该帖子不存在
+2024-09-17T11:41:32.779+08:00  WARN 1972 --- [CampusExchange] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'postTextContent' for method parameter type String is not present]
+2024-09-17T11:41:57.986+08:00  WARN 1972 --- [CampusExchange] [http-nio-8080-exec-4] c.e.c.config.GlobalExceptionHandler      : 操作的用户 userId = 1 不存在!
+2024-09-17T11:42:27.184+08:00  WARN 1972 --- [CampusExchange] [http-nio-8080-exec-5] c.e.c.config.GlobalExceptionHandler      : 操作的帖子 postId = 999 不存在!
+2024-09-17T11:42:42.544+08:00  WARN 1972 --- [CampusExchange] [http-nio-8080-exec-6] c.e.c.config.GlobalExceptionHandler      : 用户 userId = 182, 已经收藏过 postId = 131
+2024-09-17T11:43:02.146+08:00  WARN 1972 --- [CampusExchange] [http-nio-8080-exec-7] c.e.c.config.GlobalExceptionHandler      : 操作的帖子 postId = 132 不存在!
+2024-09-17T12:24:04.246+08:00  WARN 17516 --- [CampusExchange] [http-nio-8080-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'DELETE' is not supported]
+2024-09-17T21:14:02.873+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T21:15:41.243+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T21:16:34.983+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T21:18:12.922+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T21:26:20.049+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-7] c.e.c.config.GlobalExceptionHandler      : 操作的用户 userId = 148 不存在!
+2024-09-17T21:26:59.520+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-6] c.e.c.config.GlobalExceptionHandler      : 操作的用户 userId = 148 不存在!
+2024-09-17T21:28:03.000+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T21:28:29.576+08:00  WARN 11528 --- [CampusExchange] [http-nio-8080-exec-1] c.e.c.config.GlobalExceptionHandler      : 收藏记录 userId = 183, postId = 148 已存在, 无法再次添加
+2024-09-17T21:31:29.844+08:00  WARN 24240 --- [CampusExchange] [http-nio-8080-exec-7] c.e.c.config.GlobalExceptionHandler      : 收藏记录 userId = 183, postId = 148 不存在, 无法移除
+2024-09-17T22:08:04.340+08:00  WARN 24240 --- [CampusExchange] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T22:08:04.340+08:00  WARN 24240 --- [CampusExchange] [http-nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'userId' for method parameter type int is not present]
+2024-09-17T22:11:39.422+08:00  WARN 24240 --- [CampusExchange] [http-nio-8080-exec-6] c.e.c.config.GlobalExceptionHandler      : 点赞记录 userId = 183, postId = 148 不存在, 无法移除

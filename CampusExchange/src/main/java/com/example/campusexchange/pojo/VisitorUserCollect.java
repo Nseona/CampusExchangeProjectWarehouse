@@ -12,6 +12,12 @@ public class VisitorUserCollect {
     public VisitorUserCollect() {
     }
 
+    public VisitorUserCollect(Integer userId, Integer postId, Date collectTime) {
+        this.userId = userId;
+        this.postId = postId;
+        this.collectTime = collectTime;
+    }
+
     @Override
     public String toString() {
         return "VisitorUserCollect{" +

@@ -1,21 +1,17 @@
 package com.example.campusexchange.service.impl;
 
-import com.example.campusexchange.controller.PostController;
-import com.example.campusexchange.dao.PostDao;
-import com.example.campusexchange.dao.PostPicDao;
-import com.example.campusexchange.dao.VisitorUserDao;
+import com.example.campusexchange.dao.*;
+import com.example.campusexchange.exception.MapperException;
 import com.example.campusexchange.exception.ServiceException;
-import com.example.campusexchange.pojo.PostPic;
+import com.example.campusexchange.pojo.VisitorUserCollect;
+import com.example.campusexchange.pojo.VisitorUserLike;
 import com.example.campusexchange.utils.PostServiceUtils;
-import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.pojo.Post;
-import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.PostService;
 import com.example.campusexchange.utils.StatusCode;
+import com.example.campusexchange.utils.VisitorUserServiceUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +30,16 @@ public class PostServiceImpl implements PostService {
     private PostPicDao postPicDao;
 
     @Autowired
+    private VisitorUserLikeDao visitorUserLikeDao;
+
+    @Autowired
     private PostServiceUtils postServiceUtils;
+
+    @Autowired
+    private VisitorUserServiceUtils visitorUserServiceUtils;
+
+    @Autowired
+    private VisitorUserCollectDao visitorUserCollectDao;
 
     /**
      *
@@ -55,7 +60,7 @@ public class PostServiceImpl implements PostService {
 
         PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
-        List<Map<String, Object>> postList = postServiceUtils.buildPostList(posts);
+        List<Map<String, Object>> postList = postServiceUtils.buildPreviewPostList(posts);
 
         Map<String, Object> data = new HashMap<>();
 
@@ -70,10 +75,10 @@ public class PostServiceImpl implements PostService {
         Post post = postDao.selectPostOneByPostId(postId);
 
         if (post == null){
-            throw new ServiceException(StatusCode.notFound, "该帖子不存在");
+            throw new ServiceException(StatusCode.NOT_FOUND, "该帖子不存在");
         }
 
-        return postServiceUtils.buildPost(post);
+        return postServiceUtils.buildPreviewPost(post);
     }
 
     /**
@@ -87,10 +92,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Map getPostsByTimeDesc(int pageNow, int pageSize) {
+    public Map getPreviewPostsByTimeDesc(int pageNow, int pageSize) {
         PageHelper.startPage(pageNow, pageSize);
         List<Post> posts = postDao.selectPostAllByField("DESC", "post_posting_time");
-        List<Map<String, Object>> postList = postServiceUtils.buildPostList(posts);
+        List<Map<String, Object>> postList = postServiceUtils.buildPreviewPostList(posts);
         PageInfo<Post> postPageInfo = new PageInfo<>(posts);
 
         Map<String, Object> data = new HashMap<>();
@@ -99,6 +104,96 @@ public class PostServiceImpl implements PostService {
         data.put("isHasNextPage", postPageInfo.isHasNextPage());
 
         return data;
+    }
+
+    @Override
+    public void addCollect(int userId, int postId) {
+        postServiceUtils.verifyPostExistByPostId(postId);
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        VisitorUserCollect visitorUserCollect = visitorUserCollectDao.selectCollectByUserIdAndPostId(userId, postId);
+
+        if (visitorUserCollect != null){
+            throw new ServiceException(StatusCode.NON_STANDARD, String.format("收藏记录 userId = %d, postId = %d 已存在, 无法再次添加", userId, postId));
+        }
+
+        VisitorUserCollect vuc = new VisitorUserCollect();
+        vuc.setPostId(postId);
+        vuc.setUserId(userId);
+        vuc.setCollectTime(new Date());
+
+        int effect = visitorUserCollectDao.insertVisitorUserCollectOne(vuc);
+
+        if (effect != 1){
+            String message = String.format("向用户收藏表插入数据时出现异常 userId = %d, postId = %d", userId, postId);
+            throw new MapperException(StatusCode.INTERNAL_ERROR, message);
+        }
+    }
+
+    @Override
+    public void removeCollect(int userId, int postId) {
+        postServiceUtils.verifyPostExistByPostId(postId);
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        VisitorUserCollect visitorUserCollect = visitorUserCollectDao.selectCollectByUserIdAndPostId(userId, postId);
+
+        if (visitorUserCollect == null){
+            throw new ServiceException(StatusCode.NON_STANDARD, String.format("收藏记录 userId = %d, postId = %d 不存在, 无法移除", userId, postId));
+        }
+
+        Integer visitorUserCollectId = visitorUserCollect.getVisitorUserCollectId();
+
+        int effect = visitorUserCollectDao.deleteCollectByCollectId(visitorUserCollectId);
+
+        if (effect != 1){
+            String message = String.format("向用户收藏表删除数据时出现异常 userId = %d, postId = %d", userId, postId);
+            throw new MapperException(StatusCode.INTERNAL_ERROR, message);
+        }
+    }
+
+    @Override
+    public void addLike(int userId, int postId) {
+        postServiceUtils.verifyPostExistByPostId(postId);
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        VisitorUserLike visitorUserLike = visitorUserLikeDao.selectLikeByUserIdAndPostId(userId, postId);
+
+        if (visitorUserLike != null){
+            throw new ServiceException(StatusCode.NON_STANDARD, String.format("点赞记录 userId = %d, postId = %d 已存在, 无法再次添加", userId, postId));
+        }
+
+        VisitorUserLike vul = new VisitorUserLike();
+        vul.setPostId(postId);
+        vul.setUserId(userId);
+        vul.setLikeTime(new Date());
+
+        int effect = visitorUserLikeDao.insertVisitorUserLikeOne(vul);
+
+        if (effect != 1){
+            String message = String.format("向用户点赞表插入数据时出现异常 userId = %d, postId = %d", userId, postId);
+            throw new MapperException(StatusCode.INTERNAL_ERROR, message);
+        }
+    }
+
+    @Override
+    public void removeLike(int userId, int postId) {
+        postServiceUtils.verifyPostExistByPostId(postId);
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        VisitorUserLike visitorUserLike = visitorUserLikeDao.selectLikeByUserIdAndPostId(userId, postId);
+
+        if (visitorUserLike == null){
+            throw new ServiceException(StatusCode.NON_STANDARD, String.format("点赞记录 userId = %d, postId = %d 不存在, 无法移除", userId, postId));
+        }
+
+        Integer visitorUserLikeId = visitorUserLike.getVisitorUserLikeId();
+
+        int effect = visitorUserLikeDao.deleteLikeByLikeId(visitorUserLikeId);
+
+        if (effect != 1){
+            String message = String.format("向用户点赞表删除数据时出现异常 userId = %d, postId = %d", userId, postId);
+            throw new MapperException(StatusCode.INTERNAL_ERROR, message);
+        }
     }
 
 

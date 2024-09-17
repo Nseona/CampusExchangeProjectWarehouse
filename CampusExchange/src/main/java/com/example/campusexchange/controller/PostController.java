@@ -30,11 +30,11 @@ public class PostController {
     @Autowired
     private FileUtils fileUtils;
 
-    @GetMapping("/posts")
+    @GetMapping("/previewPosts")
     public Result getPosts(@RequestParam(name = "pageNow", required = true) int pageNow,
                            @RequestParam(name = "pageSize", required = true) int pageSize){
 
-        Map data = postService.getPostsByTimeDesc(pageNow, pageSize);
+        Map data = postService.getPreviewPostsByTimeDesc(pageNow, pageSize);
 
         Result result = new Result();
 
@@ -51,8 +51,8 @@ public class PostController {
         return result;
     }
 
-    @GetMapping("/post")
-    public Result getPost(@RequestParam(name = "postId") int postId){
+    @GetMapping
+    public Result getPostDetails(@RequestParam(name = "postId") int postId){
 
         Map<String, Object> postDetails = postService.getPostDetails(postId);
 
@@ -117,5 +117,29 @@ public class PostController {
         logger.info("id = " + postVisitorUserId + " 发布了帖子, post_id = " + postId);
 
         return new Result(StatusCode.OK, "发布成功!");
+    }
+
+    @PutMapping("/collect")
+    public Result putCollect(@RequestParam int userId, @RequestParam int postId){
+        postService.addCollect(userId, postId);
+        return new Result(StatusCode.OK, "收藏成功!");
+    }
+
+    @DeleteMapping("/collect")
+    public Result deleteCollect(@RequestParam int userId, @RequestParam int postId){
+        postService.removeCollect(userId, postId);
+        return new Result(StatusCode.OK, "移除收藏成功!");
+    }
+
+    @PutMapping("/like")
+    public Result putLike(@RequestParam int userId, @RequestParam int postId){
+        postService.addLike(userId, postId);
+        return new Result(StatusCode.OK, "点赞成功!");
+    }
+
+    @DeleteMapping("/like")
+    public Result deleteLike(@RequestParam int userId, @RequestParam int postId){
+        postService.removeLike(userId, postId);
+        return new Result(StatusCode.OK, "移除点赞成功!");
     }
 }

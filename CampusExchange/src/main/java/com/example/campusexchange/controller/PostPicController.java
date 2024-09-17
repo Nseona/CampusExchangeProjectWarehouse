@@ -5,7 +5,6 @@ import com.example.campusexchange.service.PostPicService;
 import com.example.campusexchange.utils.FileUtils;
 import com.example.campusexchange.utils.Result;
 import com.example.campusexchange.utils.StatusCode;
-import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,13 @@ public class PostPicController {
     @Autowired
     private FileUtils fileUtils;
 
-    @GetMapping("/")
+    @GetMapping
     public Result postPics(@RequestParam int postId){
 
         List<PostPic> postPics = postPicService.getPostPics(postId);
 
         if (postPics.isEmpty()){
-            return new Result(StatusCode.notContent, null, "该帖子无图片");
+            return new Result(StatusCode.NOT_CONTENT, null, "该帖子无图片");
         }
 
         List<String> base64List = fileUtils.toBase64(postPics);
@@ -51,7 +50,7 @@ public class PostPicController {
         PostPic postPics = postPicService.getPostPic(postId);
 
         if (postPics == null){
-            return new Result(StatusCode.notContent, null, "该帖子无图片");
+            return new Result(StatusCode.NOT_CONTENT, null, "该帖子无图片");
         }
 
         String base64 = fileUtils.toBase64(postPics.getPath());

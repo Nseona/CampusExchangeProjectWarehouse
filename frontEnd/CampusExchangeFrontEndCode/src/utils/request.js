@@ -13,7 +13,7 @@ export const request = async (obj) => {
         headers: headers_
     }
 
-    if (method_ === 'get') {
+    if (method_ === 'get' || method_ === 'put' || method_ === 'delete') {
         config.params = data_
     } else if (method_ === 'post') {
         config.data = data_

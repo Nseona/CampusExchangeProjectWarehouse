@@ -5,7 +5,7 @@ export default function debounce(fn, delay) {
             clearTimeout(timer)
         }
         timer = setTimeout(() => {
-            fn()
+            fn(...arguments)
         }, delay)
     }
 }

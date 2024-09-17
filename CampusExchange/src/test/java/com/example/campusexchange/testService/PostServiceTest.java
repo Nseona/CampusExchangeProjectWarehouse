@@ -27,4 +27,17 @@ public class PostServiceTest {
         System.out.println(postDetails);
 
     }
+
+    @Test
+    public void testAddCollect(){
+        postService.addCollect(182, 131);
+
+//        postService.addCollect(2, 3);
+
+    }
+
+    @Test
+    public void testRemoveCollect(){
+        postService.removeCollect(182, 137);
+    }
 }

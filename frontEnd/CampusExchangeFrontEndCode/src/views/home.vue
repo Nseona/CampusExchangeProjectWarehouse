@@ -96,7 +96,7 @@ const loadingPost = () => {
     }
 
     request({
-        url_: '/post/posts',
+        url_: '/post/previewPosts',
         data_: {
             pageNow: pageNow++,
             pageSize: 4

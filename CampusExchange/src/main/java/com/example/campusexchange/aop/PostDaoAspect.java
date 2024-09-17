@@ -6,7 +6,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -25,7 +24,7 @@ public class PostDaoAspect {
         List<String> options = Arrays.asList("DESC", "ASC");
 
         if (!options.contains(mode)){
-            throw new MapperException(StatusCode.internalError, "PostDao.selectPostAllByField 方法的参数 " + mode + " 不正确");
+            throw new MapperException(StatusCode.INTERNAL_ERROR, "PostDao.selectPostAllByField 方法的参数 " + mode + " 不正确");
         }
 
         return joinPoint.proceed();

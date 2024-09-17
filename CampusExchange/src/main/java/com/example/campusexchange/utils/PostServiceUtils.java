@@ -1,5 +1,7 @@
 package com.example.campusexchange.utils;
 
+import com.example.campusexchange.dao.PostDao;
+import com.example.campusexchange.dao.VisitorUserCollectDao;
 import com.example.campusexchange.dao.VisitorUserDao;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.Post;
@@ -16,19 +18,26 @@ import java.util.Map;
 public class PostServiceUtils {
     @Autowired
     private VisitorUserDao visitorUserDao;
-    public List<Map<String, Object>> buildPostList(List<Post> posts){
+
+    @Autowired
+    private PostDao postDao;
+
+    @Autowired
+    private VisitorUserCollectDao visitorUserCollectDao;
+
+    public List<Map<String, Object>> buildPreviewPostList(List<Post> posts){
         List<Map<String, Object>> postList = new ArrayList<>();
 
         posts.forEach(post -> {
-            postList.add(this.buildPost(post));
+            postList.add(this.buildPreviewPost(post));
         });
 
         return postList;
     }
-    public Map<String, Object> buildPost(Post post){
+    public Map<String, Object> buildPreviewPost(Post post){
 
         if (post == null){
-            throw new ServiceException(StatusCode.notFound, "该帖子不存在");
+            throw new ServiceException(StatusCode.NOT_FOUND, "该帖子不存在");
         }
 
         Integer userId = post.getPostVisitorUserId();
@@ -39,10 +48,18 @@ public class PostServiceUtils {
         map.put("postId", post.getPostId());
         map.put("postTextContent", post.getPostTextContent());
         map.put("postTitle", post.getPostTitle());
-        map.put("postPostingTime", post.getPostPostingTime());
+        map.put("postPostingTime", post.getPostPostingTime());   ////
         map.put("userName", visitorUser.getUserName());
-        map.put("postVisitorUserId", visitorUser.getUserId());
+        map.put("postVisitorUserId", visitorUser.getUserId());   ////
 
         return map;
     }
+
+    public void verifyPostExistByPostId(int postId){
+        Post post = postDao.selectPostOneByPostId(postId);
+        if (post == null){
+            throw new ServiceException(StatusCode.NON_STANDARD, String.format("操作的帖子 postId = %d 不存在!", postId));
+        }
+    }
+
 }

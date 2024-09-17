@@ -1,6 +1,7 @@
 package com.example.campusexchange.config;
 
 import com.example.campusexchange.controller.PostController;
+import com.example.campusexchange.exception.MapperException;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.utils.Result;
 import org.slf4j.Logger;
@@ -17,6 +18,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result handleServiceException(ServiceException e){
         logger.warn(e.getMessage());
-        return new Result(e.getStatusCode(), e.getMessage());
+        return new Result(e.getStatusCode(), "服务器繁忙， 请稍后再试。");
     }
+
+    @ExceptionHandler(MapperException.class)
+    @ResponseBody
+    public Result handleMapperException(MapperException e){
+        logger.warn(e.getMessage());
+        return new Result(e.getStatusCode(), "服务器繁忙， 请稍后再试。");
+    }
+
 }

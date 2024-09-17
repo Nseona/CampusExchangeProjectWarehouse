@@ -1,6 +1,5 @@
 package com.example.campusexchange.dao;
 
-import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUserCollect;
 import org.apache.ibatis.annotations.*;
 
@@ -16,7 +15,6 @@ public interface VisitorUserCollectDao {
             """)
     int insertVisitorUserCollectOne(VisitorUserCollect visitorUserCollect);
 
-
     @Select("select * from visitor_user_collect where user_id = #{userId}")
     @Results({
             @Result(property = "postId", column = "post_id"),
@@ -26,4 +24,15 @@ public interface VisitorUserCollectDao {
     })
     List<VisitorUserCollect> selectCollectAllByUserId(int userId);
 
+    @Select("select * from visitor_user_collect where user_id = #{userId} and post_id = #{postId}")
+    @Results({
+            @Result(property = "postId", column = "post_id"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "collectTime", column = "collect_time"),
+            @Result(property = "visitorUserCollectId", column = "visitor_user_collect_id")
+    })
+    VisitorUserCollect selectCollectByUserIdAndPostId(int userId, int postId);
+
+    @Delete("DELETE FROM visitor_user_collect WHERE visitor_user_collect_id = #{visitorUserCollectId}")
+    int deleteCollectByCollectId(int visitorUserCollectId);
 }

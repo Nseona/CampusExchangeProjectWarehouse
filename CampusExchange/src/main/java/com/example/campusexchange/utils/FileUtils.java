@@ -6,7 +6,6 @@ import com.example.campusexchange.pojo.PostPic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,16 +79,16 @@ public class FileUtils {
             base64Str = encoder.encodeToString(bytes);
         } catch (FileNotFoundException e) {
             logger.info("读入文件" + filePath + "时，发生错误" + e);
-            throw new ServiceException(StatusCode.unknownServerError, "服务器繁忙, 请稍后再试");
+            throw new ServiceException(StatusCode.UNKNOWN_SERVER_ERROR, "服务器繁忙, 请稍后再试");
         } catch (Exception e){
-            throw new ServiceException(StatusCode.unknownServerError, "服务器繁忙, 请稍后再试");
+            throw new ServiceException(StatusCode.UNKNOWN_SERVER_ERROR, "服务器繁忙, 请稍后再试");
         } finally {
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (Exception e) {
-                throw new ServiceException(StatusCode.unknownServerError, "服务器繁忙，请稍后再试");
+                throw new ServiceException(StatusCode.UNKNOWN_SERVER_ERROR, "服务器繁忙，请稍后再试");
             }
         }
 

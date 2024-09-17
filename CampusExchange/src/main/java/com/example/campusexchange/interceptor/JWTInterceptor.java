@@ -40,7 +40,7 @@ public class JWTInterceptor implements HandlerInterceptor {
             e.printStackTrace();
             result.setMessage("token失效");
         }
-        result.setStatusCode(StatusCode.refuse);
+        result.setStatusCode(StatusCode.REFUSE);
 
         String json = new ObjectMapper().writeValueAsString(result);
         response.setContentType("application/json;charset=UTF-8");

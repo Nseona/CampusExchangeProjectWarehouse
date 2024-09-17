@@ -16,11 +16,11 @@ package com.example.campusexchange.utils;
  */
 public interface StatusCode {
     int OK = 200;
-    int unauthorized = 401;
-    int nonStandard = 400;
-    int unknownServerError = 503;
-    int refuse = 403;
-    int notContent = 204;
-    int internalError = 500;
-    int notFound = 404;
+    int UNAUTHORIZED = 401;
+    int NON_STANDARD = 400;
+    int UNKNOWN_SERVER_ERROR = 503;
+    int REFUSE = 403;
+    int NOT_CONTENT = 204;
+    int INTERNAL_ERROR = 500;
+    int NOT_FOUND = 404;
 }

@@ -31,4 +31,16 @@ public class VisitorUserCollectDaoTest {
         List<VisitorUserCollect> visitorUserCollects = visitorUserCollectDao.selectCollectAllByUserId(2);
         System.out.println(visitorUserCollects);
     }
+
+    @Test
+    public void testSelectCollectByUserIdAndPostId(){
+        VisitorUserCollect visitorUserCollect = visitorUserCollectDao.selectCollectByUserIdAndPostId(2, 1);
+        System.out.println(visitorUserCollect);
+    }
+
+    @Test
+    public void testDeleteCollectByCollectId(){
+        int i = visitorUserCollectDao.deleteCollectByCollectId(2);
+        System.out.println(i);
+    }
 }

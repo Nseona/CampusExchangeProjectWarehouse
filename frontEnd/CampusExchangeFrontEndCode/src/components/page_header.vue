@@ -1,6 +1,6 @@
 <template>
     <div class="out">
-        <div class="header">
+        <div class="header" :style="{height}">
             <div class="text">
                 CampusExchange!
             </div>
@@ -9,14 +9,19 @@
 </template>
 
 <script setup>
-
+import { defineProps } from 'vue';
+const props = defineProps({
+    height: {
+        type: String,
+        default: '115px'
+    }
+})
 </script>
 
 <style lang="scss" scoped>
 .out{
     background-color: $backgroundColorPage;
     .header{
-        height: 115px;
         width: 100vw;
         background-color: white;
         margin-bottom: $gap_padding;

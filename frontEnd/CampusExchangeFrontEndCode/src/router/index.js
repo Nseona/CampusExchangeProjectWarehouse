@@ -4,7 +4,7 @@ import SignUp from '@/views/signUp.vue'
 import Home from '@/views/home.vue'
 import ReleasePost from '@/views/releasePost.vue'
 import PostDetails from '@/views/postDetails.vue'
-
+import PersonalCenter from '@/views/personalCenter.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +41,11 @@ const router = createRouter({
       path: '/postDetails',
       name: 'postDetails',
       component: PostDetails
+    },
+    {
+      path: '/personalCenter',
+      name: 'personalCenter',
+      component: PersonalCenter
     }
   ]
 })

@@ -18,21 +18,25 @@ import { StatusCode } from '@/utils/statusCode';
 import { ElMessage } from 'element-plus';
 import { defineProps, ref, onMounted, onBeforeUnmount} from 'vue'
 
-
 let state = false
+let isModified = false // 记录该组件是否被用户点击过
 const svgColor = ref('')
 
 onBeforeUnmount(() => {
-    switch(props.svgName){
-        case 'like':
-        case 'collect':
-            toolbarRequest(props.svgName, state)
-            break
+    if (isModified){
+        switch(props.svgName){
+            case 'like':
+            case 'collect':
+                toolbarRequest(props.svgName, state)
+                break
+        }        
     }
+
 })
 
 onMounted(() => {
-    svgColor.value = props.defaultColor
+    state = props.isSelect
+    svgColor.value = props.isSelect ? props.selectColor : props.defaultColor
 })
 
 const toolbarRequest = (target, operate) => {
@@ -57,6 +61,7 @@ const toolbarRequest = (target, operate) => {
 }
 
 const switchSvgColor = () => {
+    isModified = true
     if (state){
         state = !state
         return props.defaultColor
@@ -72,6 +77,7 @@ const props = defineProps({
     svgName: String,
     userId:Intl,
     postId:Intl,
+    isSelect:Boolean, // 初始状态是否选中
     defaultColor: {
         type:String,
         default: '#AFB1B5'

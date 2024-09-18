@@ -52,7 +52,8 @@ public class PostController {
     }
 
     @GetMapping
-    public Result getPostDetails(@RequestParam(name = "postId") int postId){
+    public Result getPostDetails(@RequestParam(name = "postId") int postId,
+                                 @RequestParam(name = "currentUserId") int currentUserId){
 
         Map<String, Object> postDetails = postService.getPostDetails(postId);
 

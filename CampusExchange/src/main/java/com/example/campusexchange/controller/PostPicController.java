@@ -25,37 +25,24 @@ public class PostPicController {
     @Autowired
     private PostPicService postPicService;
 
-    @Autowired
-    private FileUtils fileUtils;
-
     @GetMapping
-    public Result postPics(@RequestParam int postId){
+    public Result postPicBase64List(@RequestParam int postId){
 
-        List<PostPic> postPics = postPicService.getPostPics(postId);
+        List<String> postPicBase64List = postPicService.getPostPicBase64List(postId);
 
-        if (postPics.isEmpty()){
-            return new Result(StatusCode.NOT_CONTENT, null, "该帖子无图片");
-        }
-
-        List<String> base64List = fileUtils.toBase64(postPics);
         Map<String, List<String>> map = new HashMap<>();
-        map.put("base64List", base64List);
+        map.put("base64List", postPicBase64List);
 
         return new Result(StatusCode.OK, map, "获取帖子图片成功!");
     }
 
     @GetMapping("/preview")
-    public Result postPic(@RequestParam int postId){
+    public Result postPicBase64(@RequestParam int postId){
 
-        PostPic postPics = postPicService.getPostPic(postId);
+        String postPicBase64 = postPicService.getPostPicBase64(postId);
 
-        if (postPics == null){
-            return new Result(StatusCode.NOT_CONTENT, null, "该帖子无图片");
-        }
-
-        String base64 = fileUtils.toBase64(postPics.getPath());
         Map<String, String> map = new HashMap<>();
-        map.put("base64", base64);
+        map.put("base64", postPicBase64);
 
         return new Result(StatusCode.OK, map, "获取帖子图片成功!");
     }

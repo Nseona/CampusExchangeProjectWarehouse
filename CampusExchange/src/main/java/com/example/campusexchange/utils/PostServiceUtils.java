@@ -6,6 +6,7 @@ import com.example.campusexchange.dao.VisitorUserDao;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.pojo.VisitorUser;
+import com.example.campusexchange.service.PostPicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class PostServiceUtils {
     private PostDao postDao;
 
     @Autowired
-    private VisitorUserCollectDao visitorUserCollectDao;
+    private PostPicService postPicService;
 
     public List<Map<String, Object>> buildPreviewPostList(List<Post> posts){
         List<Map<String, Object>> postList = new ArrayList<>();
@@ -43,17 +44,48 @@ public class PostServiceUtils {
         Integer userId = post.getPostVisitorUserId();
         VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(userId);
 
-        Map<String, Object> map = new HashMap<>();
+        Integer postId = post.getPostId();
+        String postPicBase64 = postPicService.getPostPicBase64(postId);
 
+        Map<String, Object> map = new HashMap<>();
         map.put("postId", post.getPostId());
         map.put("postTextContent", post.getPostTextContent());
         map.put("postTitle", post.getPostTitle());
-        map.put("postPostingTime", post.getPostPostingTime());   ////
         map.put("userName", visitorUser.getUserName());
-        map.put("postVisitorUserId", visitorUser.getUserId());   ////
+        map.put("base64", postPicBase64);
 
         return map;
     }
+
+//    public Map<String, Object> buildDetailsPost(int postId){
+//
+//        Post post = postDao.selectPostOneByPostId(postId);
+//
+//        if (post == null){
+//            throw new ServiceException(StatusCode.NOT_FOUND, "帖子 postId = " + postId + " 不存在");
+//        }
+//
+//        if (post == null){
+//            throw new ServiceException(StatusCode.NOT_FOUND, "该帖子不存在");
+//        }
+//
+//        Integer postId = post.getPostId();
+//
+//        Integer userId = post.getPostVisitorUserId();
+//        VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(userId);
+//
+//        List<String> postPicBase64List = postPicService.getPostPicBase64List(postId);
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("postId", postId);
+//        map.put("postTextContent", post.getPostTextContent());
+//        map.put("postTitle", post.getPostTitle());
+//        map.put("postPostingTime", post.getPostPostingTime());
+//        map.put("userName", visitorUser.getUserName());
+//        map.put("base64List", postPicBase64List);
+//
+//        return map;
+//    }
 
     public void verifyPostExistByPostId(int postId){
         Post post = postDao.selectPostOneByPostId(postId);

@@ -18,6 +18,7 @@
                             :text="item.postTextContent"
                             :author="item.userName"
                             :postId="item.postId"
+                            :base64="item.base64"
                             @click="clickPreview(item.postId)"
                         />
 

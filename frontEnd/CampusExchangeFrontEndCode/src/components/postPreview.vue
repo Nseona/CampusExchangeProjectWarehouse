@@ -1,10 +1,10 @@
 <template>
     <div class="out">
         <div class="item">
-            <div class="box" ref="box" >
-                <div class="left" v-show="isShowPostPic">
+            <div :class="{ box:true, haveImg:base64 }" ref="box" >
+                <div class="left" v-show="base64">
                     <div class="imgBox">
-                        <img :src = "'data:image/png;base64,' + base64str"/>
+                        <img :src = "'data:image/png;base64,' + base64"/>
                     </div>
                 </div>
 
@@ -28,13 +28,8 @@
 </template>
 
 <script setup>
-import { defineProps , ref, onMounted} from 'vue'
+import { defineProps , ref} from 'vue'
 import { ElText } from 'element-plus'
-import { request } from '@/utils/request';
-
-const base64str = ref('')
-
-const isShowPostPic = ref(true)
 
 const box = ref(null)
 
@@ -42,27 +37,9 @@ const props = defineProps({
     title: String,
     text: String,
     author: String,
-    postId: Number
+    postId: Number,
+    base64: String
 })
-
-onMounted(() => {
-    request({
-        url_:'/postPic/preview',
-        data_:{postId: props.postId}
-    }).then(res => {
-        // 文章无图片时改变布局
-        if (res.data.statusCode != 200){
-            isShowPostPic.value = false
-            box.value.style.display = 'block'
-            box.value.style.gridTemplateColumns = 'none'
-            return
-        } 
-
-        base64str.value = res.data.data.base64
-    })
-    
-})
-
 </script>
 
 <style lang="scss" scoped>
@@ -75,8 +52,6 @@ onMounted(() => {
         .box{
             position: relative;
             border-bottom: 1px solid #EEEEEE;
-            display: grid;
-            grid-template-columns: 1fr 4fr;
 
             &:hover {
                 cursor: pointer;
@@ -141,6 +116,16 @@ onMounted(() => {
 
                 padding: $gap_padding;
             }
+        }
+
+        .haveImg{
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+        }
+
+        .notHaveImg{
+            display: block;
+            grid-template-columns: none;
         }
     }
 }

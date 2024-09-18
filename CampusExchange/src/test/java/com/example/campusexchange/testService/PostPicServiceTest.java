@@ -32,10 +32,10 @@ public class PostPicServiceTest {
 
     @Test
     public void testGetPostPics(){
-        List<PostPic> postPics = postPicService.getPostPics(131);
-        for (PostPic postPic : postPics) {
-            System.out.println(postPics);
-        }
+//        List<PostPic> postPics = postPicService.getPostPicBase64List(131);
+//        for (PostPic postPic : postPics) {
+//            System.out.println(postPics);
+//        }
 
     }
 

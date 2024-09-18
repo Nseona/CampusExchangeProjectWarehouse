@@ -3,8 +3,12 @@ package com.example.campusexchange.service.impl;
 import com.example.campusexchange.dao.*;
 import com.example.campusexchange.exception.MapperException;
 import com.example.campusexchange.exception.ServiceException;
+import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.pojo.VisitorUserCollect;
 import com.example.campusexchange.pojo.VisitorUserLike;
+import com.example.campusexchange.service.PostPicService;
+import com.example.campusexchange.service.VisitorUserCollectService;
+import com.example.campusexchange.service.VisitorUserLikeService;
 import com.example.campusexchange.utils.PostServiceUtils;
 import com.example.campusexchange.pojo.Post;
 import com.example.campusexchange.service.PostService;
@@ -41,6 +45,15 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private VisitorUserCollectDao visitorUserCollectDao;
 
+    @Autowired
+    private PostPicService postPicService;
+
+    @Autowired
+    private VisitorUserCollectService visitorUserCollectService;
+
+    @Autowired
+    private VisitorUserLikeService visitorUserLikeService;
+
     /**
      *
      * @param pageNow 需要查询的页码
@@ -75,10 +88,25 @@ public class PostServiceImpl implements PostService {
         Post post = postDao.selectPostOneByPostId(postId);
 
         if (post == null){
-            throw new ServiceException(StatusCode.NOT_FOUND, "该帖子不存在");
+            throw new ServiceException(StatusCode.NOT_FOUND, "帖子 postId = " + postId + " 不存在");
         }
 
-        return postServiceUtils.buildPreviewPost(post);
+        Integer userId = post.getPostVisitorUserId();
+        VisitorUser visitorUser = visitorUserDao.selectVisitorUserOneById(userId);
+
+        List<String> postPicBase64List = postPicService.getPostPicBase64List(postId);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+        map.put("postTextContent", post.getPostTextContent());
+        map.put("postTitle", post.getPostTitle());
+        map.put("postPostingTime", post.getPostPostingTime());
+        map.put("userName", visitorUser.getUserName());
+        map.put("base64List", postPicBase64List);
+        map.put("likeState", visitorUserLikeService.userWhetherOrNotSelect(userId, postId));
+        map.put("collectState", visitorUserCollectService.userWhetherOrNotSelect(userId, postId));
+
+        return map;
     }
 
     /**

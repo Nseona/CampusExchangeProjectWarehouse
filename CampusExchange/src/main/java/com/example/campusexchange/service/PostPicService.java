@@ -3,11 +3,12 @@ package com.example.campusexchange.service;
 import com.example.campusexchange.pojo.PostPic;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PostPicService {
     void insertPostPicList(List<PostPic> postPicList);
 
-    List<PostPic> getPostPics(int postId);
+    List<String> getPostPicBase64List(int postId);
 
-    PostPic getPostPic(int postId);
+    String getPostPicBase64(int postId);
 }

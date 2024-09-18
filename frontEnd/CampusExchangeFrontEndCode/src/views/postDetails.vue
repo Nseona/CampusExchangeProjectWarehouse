@@ -26,7 +26,6 @@
                         <div class="imgList">
                             <div class="item" v-for="(item, index) in imgList">
                                 <div class="imgBox">
-                                    <!-- <img :src = "'data:image/png;base64,' + item"/> -->
                                     <el-image 
                                         :src = "item" 
                                         fit="cover"
@@ -40,12 +39,14 @@
                         <div class="toolbar">
                             <toolbarItem 
                                 v-for="(item, index) in toolbarIconList"
+                                number="123"
                                 :svgName="item.svgName"
                                 :defaultColor="item.defaultColor"
                                 :selectColor="item.selectColor"
                                 :userId="userId"
                                 :postId="postId"
-                                number="123"/>
+                                :isSelect="item.isSelect"
+                                />
                         </div>
 
                     </div>
@@ -60,7 +61,7 @@
 <script setup>
 import { ref , onMounted} from 'vue'
 import { request } from '@/utils/request'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { StatusCode } from '@/utils/statusCode';
 import { ElMessage , ElImage} from 'element-plus'
 import moment from 'moment';
@@ -74,22 +75,17 @@ const postTextContent = ref('')
 const postTitle = ref('')
 const userName = ref('')
 const postPostingTime = ref('')
-const imgList = ref([])
-const toolbarIconList = ref([
-    {svgName:'like', selectColor:'#00AEEC'},
-    {svgName:'collect', selectColor: '#DF8130'},
-    {svgName:'comment'},
-    {svgName:'relay'}
-])
-
 const postId = ref(route.query.postId);
 const userId = ref(localStorage.getItem('userId'))
+const imgList = ref([])
+let toolbarIconList = null
 
 onMounted(() => {
     request({
         url_: '/post',
         data_: {
-            postId:postId.value
+            postId: postId.value,
+            currentUserId: userId.value
         }
     }).then(res => {
         const {statusCode, message} = res.data
@@ -99,26 +95,24 @@ onMounted(() => {
         }
 
         const pd = res.data.data.postDetails
+
         postTextContent.value = pd.postTextContent
         postTitle.value = pd.postTitle
         userName.value = pd.userName
         postPostingTime.value = moment(pd.postPostingTime).format('YYYY-MM-DD HH:mm:ss')
-    })
 
-    request({
-        url_:'/postPic',
-        data_:{
-            postId:postId.value
-        }
-    }).then(res => {
-        if (res.data.statusCode === StatusCode.OK){
-            res.data.data.base64List.forEach(item => {
-                imgList.value.push('data:image/png;base64,' + item)
-            });
-        } 
+        toolbarIconList = ref([
+            {svgName:'like', selectColor:'#00AEEC', isSelect: pd.likeState},
+            {svgName:'collect', selectColor: '#DF8130', isSelect: pd.collectState},
+            {svgName:'comment'},
+            {svgName:'relay'}
+        ])
+
+        pd.base64List.forEach(item => {
+            imgList.value.push('data:image/png;base64,' + item)
+        });
     })
 })
-
 </script>
 
 <style lang="scss" scoped>
@@ -244,28 +238,6 @@ onMounted(() => {
                         flex-direction: row;
                         align-items: center;
                         justify-content: start;
-
-                        // &>div{
-                        //     @include aboutRowCenter;
-                        //     @include clickButtonShrink;
-                        //     width: 100px;
-                        //     height: 40%;
-                        //     padding-right: 20px;
-
-                        //     .icon{
-                        //         width: 25px;
-                        //         height: 25px;
-                        //         img{
-                        //             width: 100%;
-                        //             height: 100%;
-                        //         }
-                        //     }
-                        //     .number{
-                        //         padding-left: 10px;
-                        //         font-size: 12px;
-                        //         color: $fontColor999;
-                        //     }
-                        // }
                     }
                 }
             }

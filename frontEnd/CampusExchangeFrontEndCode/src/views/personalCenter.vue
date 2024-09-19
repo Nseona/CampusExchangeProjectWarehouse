@@ -10,7 +10,7 @@
                     <div class="userInfo">
                         <div class="userInfoLeftBox">
                             <div class="topBox userName">
-                                Lucky
+                                {{ userName }}
                             </div>
                             <div class="belowBox briefIntroduction">
                                 这个人很懒，没有留下简介 
@@ -33,18 +33,9 @@
             <div class="content">
                 <div class="postPreviews">
                     <div class="postPreviewsBox">
-                        <personalCenterTooltip />
-                        <postPreview 
-                            v-for="(item, index) in collectPostList" :key="item.postId"
-                            :title="item.postTitle"
-                            :text="item.postTextContent"
-                            :author="item.userName"
-                            :postId="item.postId"
-                            :base64="item.base64"
-                            @click="clickPreview(item.postId)"
-                        />
-
-                        <loadingBar @touchBottom="touchBottom" v-if="isLoadingBarShow"/>
+                        <personalCenterTooltip @clickOption="clickOption"/>
+                        <collectPostList v-if="selectIndex === 0"/>
+                        <likePostList v-else-if="selectIndex === 1"/>
                     </div>
                 </div>
 
@@ -71,71 +62,30 @@ import goto_top_Icon from '@/components/goto_top_Icon.vue';
 import pageHeader from '@/components/page_header.vue';
 import pageFooter from '@/components/pageFooter.vue';
 import personalCenterTooltip from '@/components/personalCenterTooltip.vue';
+import collectPostList from '@/components/collectPostList.vue';
+import likePostList from '@/components/LikePostList.vue';
 
 const router = useRouter()
 
-const isLoadingBarShow = ref(true)
+const userName = ref('')
 
-const collectPostList = ref([])
-
-let pageNow = 1
-
-const clickPreview = (postId) => {
-    router.push({
-        path: '/postDetails',
-        query: {
-            postId
-        }
-    })
-}
+const selectIndex = ref(0)
 
 const clickOption = (index) => {
-    console.log(index)
+    selectIndex.value = index
 }
 
 onMounted(() => {
-    loadingPost()
-})
-
-const touchBottom = () => {
-    loadingPost()
-}
-
-const loadingPost = () => {
-
-    if (!isLoadingBarShow.value){
-        return
-    }
-
     request({
-        url_: '/post/previewPosts',
+        url_: '/user/userInfo',
         data_: {
-            pageNow: pageNow++,
-            pageSize: 4
+            userId: localStorage.getItem('userId')
         }
     }).then(res => {
-        const {statusCode} = res.data
-        if (statusCode === StatusCode.refuse){
-            router.push('/logOn')
-
-            ElMessage({
-                message: '请登录',
-                type: 'warning',
-            })
-        }
-        
-        const {postList, isHasNextPage} = res.data.data
-
-        if (!isHasNextPage){
-            ElMessage('没有更多了')
-            isLoadingBarShow.value = false
-        }
-        
-        collectPostList.value.push(...postList)        
-
+        const info = res.data.data.userInfo
+        userName.value = info.userName
     })
-}
-
+})
 </script>
 
 <style lang="scss" scoped>

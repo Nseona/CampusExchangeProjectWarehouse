@@ -28,12 +28,19 @@
 
                 <div class="rightContent">
                     <div class="functionalModule">
-                        <div class="box">
+                        <div class="functionalModuleBox">
 
                             <div class="releasePost" @click="router.push('/releasePost')">
                                 <img src="../assets/img/png/file_icon.png"/>
                                 <div class="text">
                                     发帖子
+                                </div>
+                            </div>
+
+                            <div class="personalCenter" @click="router.push('/personalCenter')">
+                                <img src="../assets/img/png/userIcon.png"/>
+                                <div class="text">
+                                    个人中心
                                 </div>
                             </div>
 
@@ -165,15 +172,15 @@ const loadingPost = () => {
             .functionalModule{
                 padding: $gap_padding;
                 height: 135px;
-                .box{
+                .functionalModuleBox{
                     width: 100%;
                     height: 100%;
                     background-color: white;
                     border-radius: 5px;
                     @include aboutRowCenter;
 
-                    .releasePost{
-                        width: 70px;
+                    &>div{
+                        width: 100px;
                         height: 70px;
 
                         @include aboutColumnCenter;
@@ -187,6 +194,12 @@ const loadingPost = () => {
                         .text{
                             padding-top: 5px;
                             font-size: 14px;
+                        }
+                    }
+
+                    .personalCenter{
+                        img{
+                            padding: 3px;
                         }
                     }
                 }

@@ -29,17 +29,13 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="content">
                 <div class="postPreviews">
-                    <div class="box">
-                        <div class="tooltip">
-                            <div class="box">
-                                最新内容
-                            </div>
-                        </div>
+                    <div class="postPreviewsBox">
+                        <personalCenterTooltip />
                         <postPreview 
-                            v-for="(item, index) in postPreviews" :key="item.postId"
+                            v-for="(item, index) in collectPostList" :key="item.postId"
                             :title="item.postTitle"
                             :text="item.postTextContent"
                             :author="item.userName"
@@ -64,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref , onMounted, defineOptions} from 'vue'
+import { ref , onMounted } from 'vue'
 import { request } from '@/utils/request'
 import { useRouter } from 'vue-router'
 import { StatusCode } from '@/utils/statusCode';
@@ -74,12 +70,13 @@ import loadingBar from '@/components/loadingBar.vue';
 import goto_top_Icon from '@/components/goto_top_Icon.vue';
 import pageHeader from '@/components/page_header.vue';
 import pageFooter from '@/components/pageFooter.vue';
+import personalCenterTooltip from '@/components/personalCenterTooltip.vue';
 
 const router = useRouter()
 
-const postPreviews = ref([])
-
 const isLoadingBarShow = ref(true)
+
+const collectPostList = ref([])
 
 let pageNow = 1
 
@@ -131,10 +128,10 @@ const loadingPost = () => {
 
         if (!isHasNextPage){
             ElMessage('没有更多了')
-            isLoadingBarShow.value = isHasNextPage
+            isLoadingBarShow.value = false
         }
         
-        postPreviews.value.push(...postList)        
+        collectPostList.value.push(...postList)        
 
     })
 }
@@ -158,6 +155,8 @@ const loadingPost = () => {
 
                 display: grid;
                 grid-template-rows: 75fr 25fr;
+
+                border-radius: 5px;
 
                 .userInfo{
                     display: grid;
@@ -241,30 +240,11 @@ const loadingPost = () => {
             min-height: 600px;
             .postPreviews{
                 padding: $gap_padding;
-                .box{
+                .postPreviewsBox{
                     width: 100%;
                     height: 100%;
                     background-color: white;
-
-                    .tooltip{
-                        width: 100%;
-                        height: 65px;
-                        padding: $gap_padding;
-                        .box{
-                            padding: $gap_padding;
-
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            justify-content: start;
-
-                            font-size: 16px;
-                            font-family: 'AlibabaPuHuiTi-3-85-Bold';
-
-                            border-radius: 0;
-                            border-bottom: 1px solid #EEEEEE;
-                        }
-                    }
+                    border-radius: 5px;
                 }
             }
         }

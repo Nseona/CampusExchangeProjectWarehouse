@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+import java.util.Map;
+
 @SpringBootTest
 public class VisitorUserServiceTest {
     @Autowired
@@ -48,5 +51,27 @@ public class VisitorUserServiceTest {
         result = visitorUserService.registeredVisitorUser(visitorUser);
         System.out.println(result.getMessage());
 
+    }
+
+    @Test
+    public void testGetUserCollectList(){
+        List<Map<String, Object>> userCollectList = visitorUserService.getUserCollectList(182);
+        userCollectList.forEach(item -> {
+            System.out.println(item);
+        });
+    }
+
+    @Test
+    public void testGetUserLikeList(){
+        List<Map<String, Object>> userLikeList = visitorUserService.getUserLikeList(182);
+        userLikeList.forEach(item -> {
+            System.out.println(item);
+        });
+    }
+
+    @Test
+    public void testGetVisitorUserInfo(){
+        Map<String, Object> visitorUserInfo = visitorUserService.getVisitorUserInfo(182);
+        System.out.println(visitorUserInfo);
     }
 }

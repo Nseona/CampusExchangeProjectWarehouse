@@ -71,25 +71,12 @@ const clickSignUpButton = () => {
     }
 
     request(obj).then(res => {
-        const {statusCode, message} = res.data
-        switch (statusCode){
-            case StatusCode.OK:
-                ElMessage({
-                    message,
-                    type: 'success',
-                })
-                router.push('/logOn')
-                break
-            case StatusCode.unknownServerError:
-                ElMessage({
-                    message,
-                    type: 'warning',
-                })
-                break
-            case StatusCode.nonStandard:
-                ElMessage.error(message)
-                break
-        }
+        const { message } = res.data
+        ElMessage({
+            message,
+            type: 'success',
+        })
+        router.push('/logOn')
     })
 }
 </script>

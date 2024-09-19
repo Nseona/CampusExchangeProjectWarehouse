@@ -102,17 +102,7 @@ const loadingPost = () => {
             pageNow: pageNow++,
             pageSize: 4
         }
-    }).then(res => {
-        const {statusCode} = res.data
-        if (statusCode === StatusCode.refuse){
-            router.push('/logOn')
-
-            ElMessage({
-                message: '请登录',
-                type: 'warning',
-            })
-        }
-        
+    }).then(res => { 
         const {postList, isHasNextPage} = res.data.data
 
         if (!isHasNextPage){
@@ -145,6 +135,7 @@ const loadingPost = () => {
                     width: 100%;
                     height: 100%;
                     background-color: white;
+                    border-radius: 5px;
 
                     .tooltip{
                         width: 100%;
@@ -178,7 +169,7 @@ const loadingPost = () => {
                     width: 100%;
                     height: 100%;
                     background-color: white;
-
+                    border-radius: 5px;
                     @include aboutRowCenter;
 
                     .releasePost{

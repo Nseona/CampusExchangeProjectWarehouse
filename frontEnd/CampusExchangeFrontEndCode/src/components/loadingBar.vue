@@ -50,6 +50,9 @@ window.addEventListener('scroll', throttle(pageScroll, 1000))
         align-items: center;
         justify-content: center;
 
+        border-end-end-radius: 5px;
+        border-end-start-radius: 5px;
+
         .loadingGif{
             width: 25px;
             height: 25px;

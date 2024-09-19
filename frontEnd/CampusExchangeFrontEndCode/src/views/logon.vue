@@ -57,24 +57,18 @@ const clickLogonButton = () => {
     }
 
     request(obj).then(res => {
-        const {statusCode, message, data} = res.data
-        switch (statusCode){
-            case StatusCode.OK:
-                ElMessage({
-                    message,
-                    type: 'success',
-                })
+        const { message } = res.data
 
-                localStorage.setItem('token', res.data.data.token)
-                localStorage.setItem('userId', res.data.data.userId)
-                localStorage.setItem('userName', res.data.data.userName)
+        ElMessage({
+            message,
+            type: 'success',
+        })
 
-                router.push('/home')
-                break
-            case StatusCode.unauthorized:
-                ElMessage.error(message)
-                break
-        }
+        localStorage.setItem('token', res.data.data.token)
+        localStorage.setItem('userId', res.data.data.userId)
+        localStorage.setItem('userName', res.data.data.userName)
+
+        router.push('/home')
     })
 }
 

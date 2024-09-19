@@ -1,22 +1,45 @@
 package com.example.campusexchange.service.impl;
 
+import com.example.campusexchange.dao.PostDao;
+import com.example.campusexchange.dao.VisitorUserCollectDao;
 import com.example.campusexchange.dao.VisitorUserDao;
-import com.example.campusexchange.utils.JWTUtils;
-import com.example.campusexchange.utils.Result;
+import com.example.campusexchange.dao.VisitorUserLikeDao;
+import com.example.campusexchange.pojo.Post;
+import com.example.campusexchange.pojo.VisitorUserCollect;
+import com.example.campusexchange.pojo.VisitorUserLike;
+import com.example.campusexchange.utils.*;
 import com.example.campusexchange.exception.ServiceException;
 import com.example.campusexchange.pojo.VisitorUser;
 import com.example.campusexchange.service.VisitorUserService;
-import com.example.campusexchange.utils.StatusCode;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class VisitorUserServiceImpl implements VisitorUserService {
     @Autowired
     private VisitorUserDao visitorUserDao;
+
+    @Autowired
+    private VisitorUserCollectDao visitorUserCollectDao;
+
+    @Autowired
+    private VisitorUserLikeDao visitorUserLikeDao;
+
+    @Autowired
+    private VisitorUserServiceUtils visitorUserServiceUtils;
+
+    @Autowired
+    private PostServiceUtils postServiceUtils;
+
+    @Autowired
+    private PostDao postDao;
 
     @Override
     public Result verifyVisitorUser(VisitorUser visitorUser) {
@@ -74,5 +97,70 @@ public class VisitorUserServiceImpl implements VisitorUserService {
         }
 
         return new Result(StatusCode.OK, "注册成功!跳转至登录页");
+    }
+
+    @Override
+    public Map<String, Object> getUserCollectList(int userId, int pageNow, int pageSize) {
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        PageHelper.startPage(pageNow, pageSize);
+        List<VisitorUserCollect> visitorUserCollects = visitorUserCollectDao.selectCollectAllByUserId(userId);
+
+        PageInfo<VisitorUserCollect> PageInfo = new PageInfo<>(visitorUserCollects);
+
+        List<Map<String, Object>> collectList = new ArrayList<>();
+
+        visitorUserCollects.forEach(item -> {
+            Post post = postDao.selectPostOneByPostId(item.getPostId());
+            Map<String, Object> map = postServiceUtils.buildPreviewPost(post);
+            collectList.add(map);
+        });
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("collectList", collectList);
+        data.put("isHasNextPage", PageInfo.isHasNextPage());
+
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> getUserLikeList(int userId, int pageNow, int pageSize) {
+        visitorUserServiceUtils.verifyVisitorUserExistByVisitorUserId(userId);
+
+        PageHelper.startPage(pageNow, pageSize);
+        List<VisitorUserLike> visitorUserLikes = visitorUserLikeDao.selectLikeAllByUserId(userId);
+
+        PageInfo<VisitorUserLike> PageInfo = new PageInfo<>(visitorUserLikes);
+
+        List<Map<String, Object>> likeList = new ArrayList<>();
+
+        visitorUserLikes.forEach(item -> {
+            Post post = postDao.selectPostOneByPostId(item.getPostId());
+            Map<String, Object> map = postServiceUtils.buildPreviewPost(post);
+            likeList.add(map);
+        });
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("likeList", likeList);
+        data.put("isHasNextPage", PageInfo.isHasNextPage());
+
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> getVisitorUserInfo(int userId) {
+        VisitorUser user = visitorUserDao.selectVisitorUserOneById(userId);
+        
+        if (user == null){
+            String message = String.format("用户 id = userId 不存在", userId);
+            throw new ServiceException(StatusCode.NOT_FOUND, message);
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userName", user.getUserName());
+        map.put("userProfilePicture", null);
+
+        return map;
     }
 }

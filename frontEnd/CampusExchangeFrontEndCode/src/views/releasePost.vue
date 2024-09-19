@@ -84,19 +84,12 @@ const uploadPost = () => {
             'Content-Type': 'multipart/form-data'
         }
     }).then(res => {
-        if (res.data.statusCode === 200){
-            ElMessage({
-                message:res.data.message,
-                type: 'success',
-            })
+        ElMessage({
+            message:res.data.message,
+            type: 'success',
+        })
 
-            router.push('/home')
-        } else {
-            ElMessage({
-                message: res.data.message,
-                type: 'warning',
-            })
-        }
+        router.push('/home')
     })
 
 }

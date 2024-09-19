@@ -88,12 +88,6 @@ onMounted(() => {
             currentUserId: userId.value
         }
     }).then(res => {
-        const {statusCode, message} = res.data
-        if (statusCode !== StatusCode.OK){
-            ElMessage.error(message)
-            return
-        }
-
         const pd = res.data.data.postDetails
 
         postTextContent.value = pd.postTextContent
